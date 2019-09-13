@@ -1,14 +1,14 @@
-version: 3
+version: '3'
 
 services:
-	postgres:
-		image: "postgres"
-		ports:
-			- "5432:5432"
+   postgres:
+      image: postgres
       environment:
          POSTGRES_USER: root
          POSTGRES_PASSWORD: root
          POSTGRES_DB: chitragupta
+      ports: 
+         - "5432:5432"
    api:
       build: ./api
       expose:
