@@ -15,7 +15,6 @@ from ..serializer import Serializable
 class UserSchema(Base, Serializable):
     # Meta
     __tablename__ = 'users'
-    __serialize_key__ = 'hpn_users'
 
     # Identifiers
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -26,34 +25,20 @@ class UserSchema(Base, Serializable):
     credentials = relationship(
         'UserCredentialsSchema', uselist=False, back_populates="user")
 
-    # Address information
-    address = relationship('UserAddressSchema',
-                           uselist=False, back_populates="user")
-
-    # Location identifier
-    longitude = Column(String)
-    latitude = Column(String)
-
     # Tracks
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now)
 
-    def __init__(self, name, username, longitude, latitude, address, credentials):
+    def __init__(self, name, username, credentials):
         self.name = name
         self.username = username
-        self.longitude = longitude
-        self.latitude = latitude
-        self.address = address
         self.credentials = credentials
 
     def json(self) -> dict:
         _result = {
             'user': str(self.id),
             'mail': self.credentials.email,
-            'contact': f'{self.credentials.country_code} ' +
-            f'{self.credentials.phone_number}',
-            'location': f'{self.address.city}, {self.address.state}, ' +
-                        f'{self.address.country}',
+            'img': self.credentials.image_url,
             'built': str(self.created_at),
             'modified': str(self.updated_at)
         }

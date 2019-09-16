@@ -1,7 +1,7 @@
 from app import app
 from .controller import user_controller as uc
 
-BASE_PREFIX = '/api/v1'
+BASE_PREFIX = '/api'
 
 
 class Route:

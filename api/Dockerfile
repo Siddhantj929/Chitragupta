@@ -20,6 +20,10 @@ RUN pip3 install -r requirements.txt
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.6.0/wait /wait
 RUN chmod +x /wait
 
+# Making migrations
+RUN alembic revisions --autogenerate -m "generating and modifying tables"
+RUN alembic upgrade head
+
 # Start the process
 EXPOSE 5000
 CMD /wait && python3 runserver.py

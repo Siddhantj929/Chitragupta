@@ -28,25 +28,13 @@ class UserCredentialsSchema(Base):
     # Primary Credentials
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    phone_number = Column(String, nullable=False)
-    country_code = Column(String, nullable=False)
-
-    # Alternate Credentials
-    alternate_email = Column(String, unique=True)
-    alternate_phone_number = Column(String)
-    alternate_country_code = Column(String)
+    image_url = Column(String, nullable=False)
 
     # Tracks
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now)
 
-    def __init__(self, email, password, country_code, phone_number,
-                 alt_phone=None, alt_email=None, alt_code=None):
-
+    def __init__(self, email, password, image_url):
         self.email = email
         self.password = password
-        self.phone_number = phone_number
-        self.country_code = country_code
-        self.alternate_phone_number = alt_phone
-        self.alternate_email = alt_email
-        self.alternate_country_code = alt_code
+        self.image_url = image_url
