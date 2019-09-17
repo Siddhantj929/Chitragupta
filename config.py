@@ -9,6 +9,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
     DATABASE_URI = os.getenv('DATABASE_URI')
+    PORT = 5001
+    HOST = '0.0.0.0'
 
 
 class ProductionConfig(Config):

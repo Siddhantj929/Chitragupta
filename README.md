@@ -4,6 +4,9 @@ An online service built on React which holds your transactions, thoughts and tas
 
 ## TODOs
 
--  ~~Add the backend service~~
--  ~~Add the client/frontend service folder~~
--  Dockerize the project for development
+-   ~~Add the backend service~~
+-   ~~Add the client/frontend service folder~~
+-   ~~Dockerize the project for development~~
+-   Create the user model
+-   Connect cloudinary for image storing
+-   Create the auth APIs

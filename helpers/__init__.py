@@ -1,3 +1,3 @@
-import base_model
-import serializer
-import singleton
+from .base_model import *
+from .singleton import *
+from .serializer import *
