@@ -3,3 +3,4 @@ sqlalchemy
 flask
 alembic
 python-dotenv
+cloudinary

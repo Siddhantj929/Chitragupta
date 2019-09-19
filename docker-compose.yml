@@ -11,21 +11,24 @@ services:
             - POSTGRES_USER=root
             - POSTGRES_PASSWORD=root
 
-    flask-api:
-        container_name: app-app
+    server:
+        container_name: server
         restart: always
         build:
-            context: .
+            context: ./server
             dockerfile: Dockerfile
         ports:
             - "5000:5001"
         volumes:
-            - ./:/usr/src/app
+            - ./server:/usr/src/app
         depends_on:
             - "db"
+        environment:
+            WAIT_HOSTS: postgres:5432
+            WAIT_BEFORE_HOSTS: 5
 
     client:
-        container_name: react-app
+        container_name: client
         build:
             context: ./client
             dockerfile: Dockerfile
@@ -35,4 +38,4 @@ services:
         ports:
             - "3000:3000"
         depends_on:
-            - "flask-api"
+            - "server"

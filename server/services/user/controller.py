@@ -4,6 +4,8 @@ from config import CURRENT_CONFIG
 from api.errors import errors
 from api.response import Response
 from .model import Users as UserModel
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 
 Users = UserModel()
 
@@ -14,25 +16,37 @@ def create_user():
 
     user = None
     user_data = None
-    user_address = None
-    user_credentials = None
+    user_image = None
 
     # Validating data - incomplete
     try:
-        user_data = request.get_json()
-        user_address = user_data.pop('address')
-        user_credentials = user_data.pop('credentials')
+        user_data = dict(request.form)
+        user_image = request.files['user_image']
     except Exception as e:
         raise errors.WrongDataSent(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
 
-    print(user_data)
+    # Uploading image
+    try:
+        response = upload(
+            user_image, public_image=user_data['name'].replace(' ', '_'))
+
+        url, options = cloudinary_url(
+            response['public_id'],
+            format=response['format'],
+            width=500,
+            height=500,
+            crop="fill"
+        )
+
+        user_data['image_url'] = url
+    except Exception as e:
+        raise errors.InternalServerError(
+            payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
 
     # Creating user
     try:
-        user = Users.create(
-            user=user_data, credentials=user_credentials, address=user_address)
-
+        user = Users.create(**user_data)
         if user is None:
             raise Exception('The user was not created successfully.')
     except Exception as e:
