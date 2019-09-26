@@ -10,6 +10,7 @@ class Config(object):
     TESTING = False
     DATABASE_URI = os.getenv('DATABASE_URI')
     CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     PORT = 5001
     HOST = '0.0.0.0'
 

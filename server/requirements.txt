@@ -4,3 +4,5 @@ flask
 alembic
 python-dotenv
 cloudinary
+flask-jwt-extended
+flask-bcrypt
