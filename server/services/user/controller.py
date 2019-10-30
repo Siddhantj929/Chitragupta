@@ -49,6 +49,15 @@ def signup():
         raise errors.InternalServerError(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
 
+    # Creating password hash
+    try:
+        user_data['password'] = bcrypt.generate_password_hash(
+            user_data['password']
+        )
+    except Exception as e:
+        raise errors.InternalServerError(
+            payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
+
     # Creating user
     try:
         user = Users.create(**user_data)
@@ -88,20 +97,18 @@ def login():
         user = Users.find(User.email == user_data['mail'])[0]
 
         if user is None:
-            raise Exception('The user was not created successfully.')
+            raise Exception('Wrong email. Please try again.')
     except Exception as e:
-        raise errors.InternalServerError(
+        raise errors.WrongDataSent(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
 
     # Authenticating the user
     try:
-        authenticated = bcrypt.check_password_hash(
+        if not bcrypt.check_password_hash(
             user.password,
             user_data['secret']
-        )
-
-        if not authenticated:
-            raise Exception('No such user was found in the database.')
+        ):
+            raise Exception('Wrong password. Please try again.')
     except Exception as e:
         raise errors.WrongDataSent(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
@@ -138,7 +145,8 @@ def get_user():
     except Exception as e:
         if e == 1:
             raise errors.WrongDataSent(
-                payload={'error': 'No user found'} if CURRENT_CONFIG.DEBUG else None)
+                payload={'error': 'No user found'}
+                if CURRENT_CONFIG.DEBUG else None)
         raise errors.InternalServerError(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
 
