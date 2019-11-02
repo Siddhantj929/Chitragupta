@@ -13,7 +13,7 @@ class Route:
 
 
 USER_ROUTES = [
-    Route('/user', 'create_user', uc.create_user, 'POST')
+    Route('/user', 'create_user', uc.create, 'POST')
 ]
 
 ROUTES = [*USER_ROUTES]

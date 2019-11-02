@@ -14,8 +14,8 @@ from flask_jwt_extended import (
 Users = UserModel()
 
 
-# Sign Up new user
-def signup():
+# Create new user
+def create():
     if request.method != 'POST':
         raise errors.WrongRequest()
 
@@ -78,7 +78,7 @@ def signup():
 
 
 # Login the user and send access token
-def login():
+def authorize():
     if request.method != 'POST':
         raise errors.WrongRequest()
 
@@ -129,7 +129,7 @@ def login():
 
 # get user data
 @jwt_required
-def get_user():
+def get():
     if request.method != 'GET':
         raise errors.WrongRequest()
 
