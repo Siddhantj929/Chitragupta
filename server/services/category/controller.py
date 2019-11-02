@@ -43,6 +43,7 @@ def create():
     # Validating data - incomplete
     try:
         category_name = request.form.get('name')
+
     except Exception as e:
         raise errors.WrongDataSent(
             payload={'error': str(e)} if CURRENT_CONFIG.DEBUG else None)
