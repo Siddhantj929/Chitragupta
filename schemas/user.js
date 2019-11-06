@@ -48,10 +48,17 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function(next) {
-	// Hash the password before saving the user model
 	const user = this;
+
 	if (user.isModified("password")) {
+		// Hash the password before saving the user model
 		user.password = await bcrypt.hash(user.password, 8);
+	} else if (
+		user.isModified("balance.savings") ||
+		user.isModified("balance.expenses")
+	) {
+		// Update the current balance for new transactions
+		user.balance.current = user.balance.savings - user.balance.expenses;
 	}
 	next();
 });
