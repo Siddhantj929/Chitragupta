@@ -1,11 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const bodyParser = require("body-parser");
 
 const config = require("../config");
 
 // Initialising express server
 const server = express();
+
+// Body parser
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 // Logger
 server.use(morgan("dev"));

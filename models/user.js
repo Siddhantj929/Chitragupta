@@ -11,7 +11,7 @@ class UserModel extends BaseModel {
 	}
 
 	// Finding the user with credentials only
-	findByCredentials = async (email, password) => {
+	async findByCredentials(email, password) {
 		const user = await Users.findOne({ email });
 
 		if (!user)
@@ -23,14 +23,14 @@ class UserModel extends BaseModel {
 			throw new Error({ error: "Invalid login credentials: Password" });
 
 		return this.serialized(user);
-	};
+	}
 
 	// Serializer for user object
-	serialized = user => {
-		const rv = { ...user };
+	serialized(user) {
+		const rv = { ...user._doc };
 		delete rv.password;
 		return rv;
-	};
+	}
 }
 
-module.exports = UserModel;
+module.exports = new UserModel();
