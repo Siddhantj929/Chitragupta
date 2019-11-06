@@ -1,8 +1,0 @@
-psycopg2-binary
-sqlalchemy
-flask
-alembic
-python-dotenv
-cloudinary
-flask-jwt-extended
-flask-bcrypt
