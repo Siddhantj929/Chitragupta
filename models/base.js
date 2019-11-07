@@ -4,24 +4,25 @@ class BaseModel {
 	}
 
 	async findAll(options) {
-		return await this.instance.find(options).map(i => this.serialized(i));
+		const instances = await this.instance.find(options);
+		return instances.map(async i => await this.serialized(i));
 	}
 
 	async findById(id) {
-		return this.serialized(await this.instance.findById(id));
+		return await this.serialized(await this.instance.findById(id));
 	}
 
 	async insert(data) {
 		const object = await new this.instance(data).save();
-		return this.serialized(object);
+		return await this.serialized(object);
 	}
 
 	async update(id, newData) {
 		const updatedUser = await this.instance.findByIdAndUpdate(id, newData);
-		return this.serialized(updatedUser);
+		return await this.serialized(updatedUser);
 	}
 
-	serialized() {
+	async serialized() {
 		throw new Error("serialized() method must be implemented!");
 	}
 }

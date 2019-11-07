@@ -35,6 +35,12 @@ const register = async transactionData => {
 	return { transaction };
 };
 
+const findAll = async data => {
+	const transactions = await TransactionModel.findAll({ user: data.user });
+	return { transactions };
+};
+
 module.exports = {
-	register
+	register,
+	findAll
 };
