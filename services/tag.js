@@ -2,14 +2,10 @@ const TagModel = require("../models/tag");
 const config = require("../config");
 
 const create = async tagData => {
-	let tag = check(tagData);
+	console.log(tagData);
+	let tag = await check(tagData);
 
-	if (tag) {
-		// Tag exists already
-		const tagError = new Error("Tag already exists");
-		tagError.tag = tag;
-		throw tagError;
-	}
+	if (tag) return { tag };
 
 	tag = await TagModel.insert(tagData);
 	return { tag };

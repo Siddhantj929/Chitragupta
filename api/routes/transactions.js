@@ -9,7 +9,10 @@ module.exports = app => {
 	router.post("/", ifAuth, (req, res) =>
 		TransactionService.register(req.body)
 			.then(data => res.status(201).send(response(data, true, null)))
-			.catch(err => res.status(400).send(response(null, false, err)))
+			.catch(err => {
+				console.error(err);
+				res.status(400).send(response(null, false, err));
+			})
 	);
 
 	app.use("/transactions", router);

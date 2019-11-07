@@ -11,6 +11,11 @@ const findById = async id => {
 	return { user };
 };
 
+const findByCredentials = async ({ email, password }) => {
+	const user = await UserModel.findByCredentials(email, password);
+	return { user };
+};
+
 module.exports = {
 	edit,
 	findById

@@ -4,27 +4,26 @@ const UserService = require("../services/user");
 const config = require("../config");
 
 const register = async transactionData => {
+	transactionData.amount = parseFloat(transactionData.amount);
+
 	// Checking for tag
 	let tag;
 
-	try {
-		tag = await TagService.create({
-			...transactionData.tag,
-			user: transactionData.user
-		});
-	} catch (err) {
-		tag = err.tag;
-	}
+	tag = await TagService.create({
+		...transactionData.tag,
+		user: transactionData.user
+	});
 
-	transactionData.tag = tag._id;
+	transactionData.tag = tag.tag._id;
 
 	// Adding transaction
 	const transaction = await TransactionModel.insert(transactionData);
 
+	transactionData.user.balance.current += transaction.amount;
 	if (transaction.isProfit) {
 		transactionData.user.balance.savings += transaction.amount;
 	} else {
-		transactionData.user.balance.expenses += transaction.amount;
+		transactionData.user.balance.expenses -= transaction.amount;
 	}
 
 	// Updating user
