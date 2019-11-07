@@ -5,7 +5,7 @@ const create = async tagData => {
 	console.log(tagData);
 	let tag = await check(tagData);
 
-	if (tag) return { tag };
+	if (tag) throw new Error("Tag already exists");
 
 	tag = await TagModel.insert(tagData);
 	return { tag };
