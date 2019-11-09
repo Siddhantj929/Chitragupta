@@ -9,7 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	Cockpit: {
 		display: "flex",
 		justifyContent: "flex-start",
@@ -31,9 +31,10 @@ const useStyles = makeStyles({
 	menuIcon: {
 		position: "absolute",
 		top: 4,
+		color: theme.palette.text.secondary,
 		right: 0
 	}
-});
+}));
 
 const Cockpit = () => {
 	const classes = useStyles();

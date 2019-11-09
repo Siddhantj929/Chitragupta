@@ -18,6 +18,9 @@ import bottomNavConfig from "../../config/bottomNav";
 const theme = createMuiTheme({
 	palette: {
 		primary: blue
+		// background: {
+		// 	default: "#f7f7f7"
+		// }
 	}
 });
 
