@@ -17,14 +17,14 @@ import bottomNavConfig from "../../config/bottomNav";
 
 const theme = createMuiTheme({
 	palette: {
-		primary: blue
-		// background: {
-		// 	default: "#f7f7f7"
-		// }
+		primary: blue,
+		background: {
+			default: "#f7f7f7"
+		}
 	}
 });
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	App: {
 		minHeight: "100vh"
 	},
@@ -32,9 +32,10 @@ const useStyles = makeStyles({
 		position: "fixed",
 		bottom: 0,
 		left: 0,
-		right: 0
+		right: 0,
+		boxShadow: theme.shadows[2]
 	}
-});
+}));
 
 const App = () => {
 	const classes = useStyles();

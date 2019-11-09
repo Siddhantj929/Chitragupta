@@ -3,11 +3,11 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+
+import Menu from "../Menu";
 
 const useStyles = makeStyles(theme => ({
 	Cockpit: {
@@ -49,6 +49,17 @@ const Cockpit = () => {
 		setAnchorEl(null);
 	};
 
+	const menuItems = [
+		{
+			icon: <Icon fontSize="small">edit</Icon>,
+			text: "Edit Profile"
+		},
+		{
+			icon: <Icon fontSize="small">exit_to_app</Icon>,
+			text: "Logout"
+		}
+	];
+
 	return (
 		<div className={classes.Cockpit}>
 			<Avatar
@@ -73,25 +84,10 @@ const Cockpit = () => {
 				more_vert
 			</Icon>
 			<Menu
-				id="user-menu"
-				anchorEl={anchorEl}
-				keepMounted
-				open={Boolean(anchorEl)}
-				onClose={handleClose}
-			>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon>
-						<Icon fontSize="small">edit</Icon>
-					</ListItemIcon>
-					<ListItemText primary="Profile" />
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon>
-						<Icon fontSize="small">exit_to_app</Icon>
-					</ListItemIcon>
-					<ListItemText primary="Logout" />
-				</MenuItem>
-			</Menu>
+				anchor={anchorEl}
+				handleClose={handleClose}
+				items={menuItems}
+			/>
 		</div>
 	);
 };
