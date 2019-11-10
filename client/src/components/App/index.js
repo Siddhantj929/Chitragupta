@@ -26,7 +26,8 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
 	App: {
-		minHeight: "100vh"
+		minHeight: "100vh",
+		paddingBottom: theme.spacing(4)
 	},
 	BottomNav: {
 		position: "fixed",

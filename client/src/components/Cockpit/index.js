@@ -3,8 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Menu from "../Menu";
@@ -63,7 +61,7 @@ const Cockpit = () => {
 	return (
 		<div className={classes.Cockpit}>
 			<Avatar
-				src="http://www.xeus.com/wp-content/uploads/2014/09/One_User_Orange.png"
+				src="https://i.imgur.com/ADAlTe2.jpg"
 				className={classes.bigAvatar}
 			/>
 			<div className={classes.userInfo}>

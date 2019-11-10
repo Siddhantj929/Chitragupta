@@ -20,6 +20,9 @@ const StyledMenuItem = withStyles(theme => ({
 		},
 		"& .MuiListItemIcon-root": {
 			minWidth: theme.spacing(4)
+		},
+		"& .MuiListItemText-root": {
+			marginTop: 6
 		}
 	}
 }))(MenuItem);
@@ -37,7 +40,7 @@ const CustomizedMenu = props => {
 		>
 			{items.map((e, i) => (
 				<StyledMenuItem key={i}>
-					<ListItemIcon>{e.icon}</ListItemIcon>
+					{e.icon && <ListItemIcon>{e.icon}</ListItemIcon>}
 					<ListItemText primary={e.text} />
 				</StyledMenuItem>
 			))}
