@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import Tag from "../Tag";
 import Menu from "../Menu";
@@ -15,7 +16,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	text: {
 		marginBottom: theme.spacing(1.5),
-		width: "90%"
+		width: "90%",
+		display: "flex",
+		alignItems: "flex-start"
 	},
 	menuIcon: {
 		position: "absolute",
@@ -28,6 +31,10 @@ const useStyles = makeStyles(theme => ({
 		width: "1.1rem",
 		marginTop: 1,
 		fontSize: "1.1rem"
+	},
+	checkbox: {
+		padding: 0,
+		paddingRight: theme.spacing(1)
 	}
 }));
 
@@ -70,10 +77,20 @@ const Task = props => {
 
 	return (
 		<Paper className={classes.root}>
-			<Typography variant="body2" className={classes.text}>
-				Paper can be used to build surface or other elements for your
-				application.
-			</Typography>
+			<div className={classes.text}>
+				{props.isActive && (
+					<Checkbox
+						checked={false}
+						// onChange={!this.checked}
+						value="checkedA"
+						className={classes.checkbox}
+					/>
+				)}
+				<Typography variant="body2">
+					Paper can be used to build surface or other elements for
+					your application.
+				</Typography>
+			</div>
 			{props.tag && <Tag name={props.tag.name} color={props.tag.color} />}
 			{props.complete && <CompleteTag />}
 			<Icon

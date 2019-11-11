@@ -20,17 +20,18 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const TaskList = () => {
+const TaskList = props => {
 	const classes = useStyles();
+	const { title, showAddButton } = props;
 
 	return (
 		<div className="TaskList">
 			<div className={classes.ListHeader}>
-				<Typography variant="button">Active Tasks</Typography>
-				<Button color="primary">Add New</Button>
+				<Typography variant="button">{title}</Typography>
+				{showAddButton && <Button color="primary">Add New</Button>}
 			</div>
-			<Task tag={tag} complete />
-			<Task tag={tag} />
+			<Task tag={tag} complete isActive />
+			<Task tag={tag} isActive />
 			<Task tag={tag} complete />
 		</div>
 	);

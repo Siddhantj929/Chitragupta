@@ -4,10 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Cockpit from "../../components/Cockpit";
 import Accordian from "../../components/Accordian";
 import TaskList from "../../components/TaskList";
+import TransactionList from "../../components/TransactionList";
 
 const useStyles = makeStyles({
 	ProfilePage: {
-		paddingTop: 16,
+		paddingTop: 8,
 		paddingBottom: 16
 	},
 	Section: {
@@ -26,7 +27,10 @@ const ProfilePage = () => {
 				<Accordian />
 			</div>
 			<div className={classes.Section}>
-				<TaskList />
+				<TaskList title="Active Tasks" showAddButton />
+			</div>
+			<div className={classes.Section}>
+				<TransactionList title="Latest Transactions" showAddButton />
 			</div>
 		</div>
 	);
