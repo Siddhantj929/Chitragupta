@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import Accordian from "../../components/Accordian";
+import Accordian from "../../Accordian";
 
 const useStyles = makeStyles(theme => ({
 	RecordsPage: {

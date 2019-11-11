@@ -8,10 +8,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import BottomNav from "../BottomNav";
 
-import ProfilePage from "../../pages/Profile";
-import RecordsPage from "../../pages/Records";
-import TasksPage from "../../pages/Tasks";
-import TransactionsPage from "../../pages/Transactions";
+import ProfilePage from "../pages/Profile";
+import RecordsPage from "../pages/Records";
+import TasksPage from "../pages/Tasks";
+import TransactionsPage from "../pages/Transactions";
 
 import bottomNavConfig from "../../config/bottomNav";
 

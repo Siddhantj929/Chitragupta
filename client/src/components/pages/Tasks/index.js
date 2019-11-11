@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import TaskForm from "../../components/TaskForm";
-import TaskList from "../../components/TaskList";
+import TaskForm from "../../TaskForm";
+import TaskList from "../../TaskList";
 
 const useStyles = makeStyles({
 	TaskPage: {

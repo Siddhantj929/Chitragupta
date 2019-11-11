@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Cockpit from "../../components/Cockpit";
-import Accordian from "../../components/Accordian";
-import TaskList from "../../components/TaskList";
-import TransactionList from "../../components/TransactionList";
+import Cockpit from "../../Cockpit";
+import Accordian from "../../Accordian";
+import TaskList from "../../TaskList";
+import TransactionList from "../../TransactionList";
 
 const useStyles = makeStyles({
 	ProfilePage: {

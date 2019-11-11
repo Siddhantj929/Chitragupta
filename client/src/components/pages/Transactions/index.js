@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Accordian from "../../components/Accordian";
-import TransactionForm from "../../components/TransactionForm";
-import TransactionList from "../../components/TransactionList";
+import Accordian from "../../Accordian";
+import TransactionForm from "../../TransactionForm";
+import TransactionList from "../../TransactionList";
 
 const useStyles = makeStyles({
 	TransactionPage: {
