@@ -83,14 +83,8 @@ const TaskForm = () => {
 						select
 						fullWidth
 						label="Select"
-						className={classes.textField}
 						value={currency}
 						onChange={handleChange}
-						SelectProps={{
-							MenuProps: {
-								className: classes.menu
-							}
-						}}
 						helperText="Please select your currency"
 						margin="normal"
 					>

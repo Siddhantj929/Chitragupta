@@ -24,7 +24,7 @@ const TransactionPage = () => {
 	return (
 		<div className={classes.TransactionPage}>
 			<div className={classes.Accordian}>
-				<Accordian />
+				<Accordian expanded />
 			</div>
 			<div className={classes.Section}>
 				<TransactionForm />

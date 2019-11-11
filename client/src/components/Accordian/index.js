@@ -54,7 +54,7 @@ const Accordian = props => {
 	const classes = useStyles();
 
 	return (
-		<ExpansionPanel>
+		<ExpansionPanel {...props}>
 			<ExpansionPanelSummary expandIcon={<Icon>expand_more</Icon>}>
 				<Typography className={classes.heading}>
 					Current Balance
