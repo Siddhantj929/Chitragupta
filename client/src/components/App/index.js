@@ -21,6 +21,9 @@ const theme = createMuiTheme({
 		background: {
 			default: "#f7f7f7"
 		}
+	},
+	typography: {
+		fontSize: 12
 	}
 });
 
@@ -35,6 +38,9 @@ const useStyles = makeStyles(theme => ({
 		left: 0,
 		right: 0,
 		boxShadow: theme.shadows[2]
+	},
+	Container: {
+		padding: theme.spacing(0, 3)
 	}
 }));
 
@@ -49,7 +55,7 @@ const App = () => {
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<div className={classes.App}>
-				<Container maxWidth="sm">
+				<Container maxWidth="sm" className={classes.Container}>
 					{navValue === bottomNavConfig.values.profile && (
 						<ProfilePage />
 					)}

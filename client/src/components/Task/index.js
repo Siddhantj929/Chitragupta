@@ -75,6 +75,12 @@ const Task = props => {
 		}
 	];
 
+	const { tags } = makeStyles(theme => ({
+		tags: {
+			marginLeft: props.isActive ? theme.spacing(4) : 0
+		}
+	}))();
+
 	return (
 		<Paper className={classes.root}>
 			<div className={classes.text}>
@@ -91,8 +97,12 @@ const Task = props => {
 					your application.
 				</Typography>
 			</div>
-			{props.tag && <Tag name={props.tag.name} color={props.tag.color} />}
-			{props.complete && <CompleteTag />}
+			<div className={tags}>
+				{props.tag && (
+					<Tag name={props.tag.name} color={props.tag.color} />
+				)}
+				{props.complete && <CompleteTag />}
+			</div>
 			<Icon
 				className={classes.menuIcon}
 				aria-controls="user-menu"
