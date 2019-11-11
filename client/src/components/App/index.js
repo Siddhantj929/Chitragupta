@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
 	const classes = useStyles();
 
-	const [navValue, setNavValue] = useState(bottomNavConfig.values.profile);
+	const [navValue, setNavValue] = useState(bottomNavConfig.values.records);
 
 	const handleNavValueChange = (e, value) => setNavValue(value);
 
