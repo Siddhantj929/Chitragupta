@@ -13,7 +13,7 @@ import { toDateString } from "../../config/date";
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(2),
-		margin: theme.spacing(1, 0),
+		margin: theme.spacing(1.5, 0),
 		position: "relative"
 	},
 	text: {
@@ -64,20 +64,16 @@ const Transaction = props => {
 	return (
 		<Paper className={classes.root}>
 			<div className={classes.text}>
-				<Typography variant="body2" className={classes.reason}>
+				<Typography variant="body1" className={classes.reason}>
 					Paper can be used to build surface or other elements for
 					your application.
 				</Typography>
-				<Typography variant="body2" className={classes.amount}>
+				<Typography variant="body1" className={classes.amount}>
 					₹ 2,000 /-
 				</Typography>
 			</div>
 			{props.tag && <Tag name={props.tag.name} color={props.tag.color} />}
-			<Typography
-				variant="caption"
-				color="textSecondary"
-				component="span"
-			>
+			<Typography variant="body2" color="textSecondary" component="span">
 				{toDateString(new Date())}
 			</Typography>
 			<Icon

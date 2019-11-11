@@ -19,7 +19,7 @@ const theme = createMuiTheme({
 	palette: {
 		primary: blue,
 		background: {
-			default: "#f7f7f7"
+			default: "#f4f4f4"
 		}
 	},
 	typography: {

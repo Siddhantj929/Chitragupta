@@ -11,7 +11,7 @@ import Menu from "../Menu";
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(2),
-		margin: theme.spacing(1, 0),
+		margin: theme.spacing(1.5, 0),
 		position: "relative"
 	},
 	text: {
@@ -92,7 +92,7 @@ const Task = props => {
 						className={classes.checkbox}
 					/>
 				)}
-				<Typography variant="body2">
+				<Typography variant="body1">
 					Paper can be used to build surface or other elements for
 					your application.
 				</Typography>

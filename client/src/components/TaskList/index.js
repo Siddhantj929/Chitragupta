@@ -32,7 +32,7 @@ const TaskList = props => {
 			</div>
 			<Task tag={tag} complete isActive />
 			<Task tag={tag} isActive />
-			<Task tag={tag} complete />
+			<Task tag={tag} complete isActive />
 		</div>
 	);
 };

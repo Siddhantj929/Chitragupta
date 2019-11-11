@@ -14,7 +14,7 @@ const Tag = props => {
 				background: props.color,
 				color: theme.palette.getContrastText(props.color),
 				marginRight: theme.spacing(1),
-				fontSize: theme.typography.caption.fontSize,
+				fontSize: theme.typography.body2.fontSize,
 				height: "auto",
 				fontWeight: "bold"
 			}}
