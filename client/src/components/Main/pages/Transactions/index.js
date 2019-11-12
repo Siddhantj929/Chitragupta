@@ -1,14 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Accordian from "../../Accordian";
-import TransactionForm from "../../TransactionForm";
-import TransactionList from "../../TransactionList";
+import Accordian from "../../../Accordian";
+import TransactionForm from "../../../TransactionForm";
+import TransactionList from "../../../TransactionList";
 
 const useStyles = makeStyles({
 	TransactionPage: {
 		paddingTop: 8,
-		paddingBottom: 16
+		paddingBottom: 40
 	},
 	Section: {
 		margin: "32px 0"

@@ -3,17 +3,12 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { blue } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 
-import BottomNav from "../BottomNav";
+import Main from "../Main";
+import Sign from "../Sign";
 
-import ProfilePage from "../pages/Profile";
-import RecordsPage from "../pages/Records";
-import TasksPage from "../pages/Tasks";
-import TransactionsPage from "../pages/Transactions";
-
-import bottomNavConfig from "../../config/bottomNav";
+import Context from "./context";
 
 const theme = createMuiTheme({
 	palette: {
@@ -29,50 +24,58 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
 	App: {
-		minHeight: "100vh",
-		paddingBottom: theme.spacing(4)
-	},
-	BottomNav: {
-		position: "fixed",
-		bottom: 0,
-		left: 0,
-		right: 0,
-		boxShadow: theme.shadows[2]
-	},
-	Container: {
-		padding: theme.spacing(0, 3)
+		minHeight: "100vh"
 	}
 }));
 
 const App = () => {
 	const classes = useStyles();
 
-	const [navValue, setNavValue] = useState(bottomNavConfig.values.records);
+	// Auth
+	const [token, setToken] = useState(null);
+	const [user, setUser] = useState(null);
 
-	const handleNavValueChange = (e, value) => setNavValue(value);
+	const login = (user, token) => {
+		setUser(user);
+		setToken(token);
+	};
+
+	const logout = () => {
+		setToken(null);
+		setUser(null);
+	};
+
+	// Tasks Completion Event
+	const [tasksCompleted, setTasksCompleted] = useState([]);
+
+	const selectTask = taskId => setTasksCompleted([...tasksCompleted, taskId]);
+
+	// Transaction Context
+	const [latestTransactions, setLatestTransactions] = useState();
+
+	const updateLatestTransactions = transactions =>
+		setLatestTransactions([...latestTransactions, transactions]);
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<div className={classes.App}>
-				<Container maxWidth="sm" className={classes.Container}>
-					{navValue === bottomNavConfig.values.profile && (
-						<ProfilePage />
-					)}
-					{navValue === bottomNavConfig.values.tasks && <TasksPage />}
-					{navValue === bottomNavConfig.values.transactions && (
-						<TransactionsPage />
-					)}
-					{navValue === bottomNavConfig.values.records && (
-						<RecordsPage />
-					)}
-				</Container>
-				<BottomNav
-					className={classes.BottomNav}
-					value={navValue}
-					handleChange={handleNavValueChange}
-				/>
-			</div>
+			<Context.Provider
+				value={{
+					user,
+					token,
+					login,
+					logout,
+					selectTask,
+					tasksCompleted,
+					latestTransactions,
+					updateLatestTransactions
+				}}
+			>
+				<div className={classes.App}>
+					{user && token && <Main />}
+					{!user && !token && <Sign />}
+				</div>
+			</Context.Provider>
 		</ThemeProvider>
 	);
 };

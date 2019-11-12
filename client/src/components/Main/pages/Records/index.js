@@ -4,12 +4,12 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import Accordian from "../../Accordian";
+import Accordian from "../../../Accordian";
 
 const useStyles = makeStyles(theme => ({
 	RecordsPage: {
 		paddingTop: 0,
-		paddingBottom: theme.spacing(2)
+		paddingBottom: theme.spacing(5)
 	},
 	Section: {
 		margin: theme.spacing(4, 0)

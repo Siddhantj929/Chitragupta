@@ -1,15 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Cockpit from "../../Cockpit";
-import Accordian from "../../Accordian";
-import TaskList from "../../TaskList";
-import TransactionList from "../../TransactionList";
+import Cockpit from "../../../Cockpit";
+import Accordian from "../../../Accordian";
+import TaskList from "../../../TaskList";
+import TransactionList from "../../../TransactionList";
 
 const useStyles = makeStyles({
 	ProfilePage: {
 		paddingTop: 8,
-		paddingBottom: 16
+		paddingBottom: 40
 	},
 	Section: {
 		margin: "32px 0"

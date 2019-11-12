@@ -1,13 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import TaskForm from "../../TaskForm";
-import TaskList from "../../TaskList";
+import TaskForm from "../../../TaskForm";
+import TaskList from "../../../TaskList";
 
 const useStyles = makeStyles({
 	TaskPage: {
 		paddingTop: 0,
-		paddingBottom: 16
+		paddingBottom: 40
 	},
 	Section: {
 		margin: "32px 0"
