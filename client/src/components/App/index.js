@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Main from "../Main";
 import Sign from "../Sign";
+import Loader from "../Loader";
 
 import Context from "./context";
 
@@ -45,6 +46,12 @@ const App = () => {
 		setUser(null);
 	};
 
+	// Loader
+	const [isLoading, setIsLoading] = useState(true);
+
+	const closeLoader = () => setIsLoading(false);
+	const openLoader = () => setIsLoading(true);
+
 	// Tasks Completion Event
 	const [tasksCompleted, setTasksCompleted] = useState([]);
 
@@ -68,12 +75,15 @@ const App = () => {
 					selectTask,
 					tasksCompleted,
 					latestTransactions,
-					updateLatestTransactions
+					updateLatestTransactions,
+					openLoader,
+					closeLoader
 				}}
 			>
 				<div className={classes.App}>
 					{user && token && <Main />}
 					{!user && !token && <Sign />}
+					<Loader open={isLoading} closeLoader={closeLoader} />
 				</div>
 			</Context.Provider>
 		</ThemeProvider>
