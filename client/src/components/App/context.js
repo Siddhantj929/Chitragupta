@@ -14,7 +14,8 @@ const authContext = {
 
 const taskContext = {
 	tasksCompleted: [],
-	selectTask: taskId => {}
+	selectTask: taskId => {},
+	deSelectTask: taskId => {}
 };
 
 const transactionContext = {

@@ -14,6 +14,7 @@ import Context from "./context";
 const theme = createMuiTheme({
 	palette: {
 		primary: blue,
+		secondary: blue,
 		background: {
 			default: "#f4f4f4"
 		}
@@ -33,8 +34,8 @@ const App = () => {
 	const classes = useStyles();
 
 	// Auth
-	const [token, setToken] = useState(null);
-	const [user, setUser] = useState(null);
+	const [token, setToken] = useState("1");
+	const [user, setUser] = useState(1);
 
 	const login = (user, token) => {
 		setUser(user);
@@ -47,7 +48,7 @@ const App = () => {
 	};
 
 	// Loader
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const closeLoader = () => setIsLoading(false);
 	const openLoader = () => setIsLoading(true);
@@ -56,6 +57,12 @@ const App = () => {
 	const [tasksCompleted, setTasksCompleted] = useState([]);
 
 	const selectTask = taskId => setTasksCompleted([...tasksCompleted, taskId]);
+
+	const deSelectTask = taskId => {
+		const _selected = [...tasksCompleted];
+		_selected.splice(_selected.indexOf(taskId), 1);
+		setTasksCompleted(_selected);
+	};
 
 	// Transaction Context
 	const [latestTransactions, setLatestTransactions] = useState();
@@ -73,6 +80,7 @@ const App = () => {
 					login,
 					logout,
 					selectTask,
+					deSelectTask,
 					tasksCompleted,
 					latestTransactions,
 					updateLatestTransactions,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -7,6 +7,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import Tag from "../Tag";
 import Menu from "../Menu";
+
+import Context from "../App/context";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -53,7 +55,9 @@ const CompleteTag = () => {
 
 const Task = props => {
 	const classes = useStyles();
+	const context = useContext(Context);
 
+	// Menu
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	const handleClick = event => {
@@ -62,6 +66,15 @@ const Task = props => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	// Checkbox
+	const [checked, setChecked] = React.useState(false);
+
+	const handleCheck = id => {
+		if (checked) context.deSelectTask(id);
+		else context.selectTask(id);
+		setChecked(!checked);
 	};
 
 	const menuItems = [
@@ -86,8 +99,10 @@ const Task = props => {
 			<div className={classes.text}>
 				{props.isActive && (
 					<Checkbox
-						checked={false}
-						// onChange={!this.checked}
+						checked={checked}
+						onChange={handleCheck.bind(
+							Math.floor(this, Math.random() * 10000)
+						)}
 						value="checkedA"
 						className={classes.checkbox}
 					/>
