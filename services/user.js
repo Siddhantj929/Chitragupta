@@ -1,22 +1,32 @@
+const BaseService = require("./base");
 const UserModel = require("../models/user");
 const config = require("../config");
+var cloudinary = require("cloudinary").v2;
 
-const edit = async ({ id, data }) => {
-	const user = await UserModel.update(id, data);
-	return { user };
-};
+class UserService extends BaseService {
+	constructor() {
+		super(UserModel);
+	}
 
-const findById = async id => {
-	const user = await UserModel.findById(id);
-	return { user };
-};
+	async create(data) {
+		const imageOptions = {
+			tags: "Chitragupta",
+			eager: config.image.transformations
+		};
 
-const findByCredentials = async ({ email, password }) => {
-	const user = await UserModel.findByCredentials(email, password);
-	return { user };
-};
+		const image = await cloudinary.uploader.upload(
+			data.image,
+			imageOptions
+		);
 
-module.exports = {
-	edit,
-	findById
-};
+		data.imageURL = image.url;
+
+		return await super.create(data);
+	}
+
+	async findByCredentials({ email, password }) {
+		return await this.model.findByCredentials(email, password);
+	}
+}
+
+module.exports = new UserService();

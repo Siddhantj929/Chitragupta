@@ -22,13 +22,23 @@ class UserModel extends BaseModel {
 		if (!isPasswordMatch)
 			throw new Error({ error: "Invalid login credentials: Password" });
 
-		return this.serialized(user);
+		return await this.serialized(user);
 	}
 
 	// Serializer for user object
-	serialized(user) {
+	async serialized(base_user) {
+		const user = await Users.populate(base_user, {
+			path: "notes.active",
+			populate: "tag"
+		});
+
 		const rv = { ...user._doc };
 		delete rv.password;
+
+		user.notes.active.forEach(e => {
+			if (e.user) delete e.user;
+		});
+
 		return rv;
 	}
 }

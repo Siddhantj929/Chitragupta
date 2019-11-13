@@ -22,6 +22,11 @@ class BaseModel {
 		return await this.serialized(updatedUser);
 	}
 
+	async remove(id) {
+		await this.instance.findByIdAndRemove(id);
+		return true;
+	}
+
 	async serialized() {
 		throw new Error("serialized() method must be implemented!");
 	}

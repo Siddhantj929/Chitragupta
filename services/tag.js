@@ -1,22 +1,25 @@
+const BaseService = require("./base");
 const TagModel = require("../models/tag");
-const config = require("../config");
 
-const create = async tagData => {
-	console.log(tagData);
-	let tag = await check(tagData);
+class TagService extends BaseService {
+	constructor() {
+		super(TagModel);
+	}
 
-	if (tag) throw new Error("Tag already exists");
+	async create(tagData) {
+		let tag = await this.check(tagData);
 
-	tag = await TagModel.insert(tagData);
-	return { tag };
-};
+		if (tag) throw new Error("Tag already exists");
 
-const check = data =>
-	TagModel.findByNameAndUser(data)
-		.then(d => d)
-		.catch(e => false);
+		return await this.model.insert(tagData);
+	}
 
-module.exports = {
-	create,
-	check
-};
+	check(data) {
+		this.model
+			.findByNameAndUser(data)
+			.then(d => d)
+			.catch(e => false);
+	}
+}
+
+module.exports = new TagService();

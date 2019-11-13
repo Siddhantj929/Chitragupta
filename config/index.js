@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const notes = require("./notes");
 const transactions = require("./transactions");
+const image = require("./image");
 
 module.exports = {
 	PORT: process.env.PORT,
@@ -11,5 +12,6 @@ module.exports = {
 	MONGO_URI: process.env.MONGO_URI,
 	API_PREFIX: process.env.API_PREFIX,
 	notes,
-	transactions
+	transactions,
+	image
 };

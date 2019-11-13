@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";
 import Zoom from "@material-ui/core/Zoom";
-import Grow from "@material-ui/core/Grow";
 
 import Task from "../Task";
 

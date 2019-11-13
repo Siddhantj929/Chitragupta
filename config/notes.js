@@ -18,5 +18,6 @@ module.exports = {
 				color: "#1060e0"
 			}
 		]
-	}
+	},
+	maxActive: 3
 };
