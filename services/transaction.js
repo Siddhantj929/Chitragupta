@@ -14,12 +14,16 @@ class TransactionService extends BaseService {
 		// Checking for tag
 		let tag;
 
-		tag = await TagService.create({
+		const tagData = {
 			...transactionData.tag,
 			user: transactionData.user
-		});
+		};
 
-		transactionData.tag = tag.tag._id;
+		delete tagData._id;
+
+		tag = await TagService.create(tagData);
+
+		transactionData.tag = tag._id;
 
 		// Adding transaction
 		const transaction = await this.model.insert(transactionData);
@@ -38,6 +42,10 @@ class TransactionService extends BaseService {
 		);
 
 		return transaction;
+	}
+
+	async findAll(options) {
+		return await this.model.findAll(options);
 	}
 
 	async readAllByUser(data) {

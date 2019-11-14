@@ -9,11 +9,7 @@ class TransactionModel extends BaseModel {
 		super(Transactions);
 	}
 
-	async serialized(base_transaction) {
-		const transaction = await Transactions.populate(base_transaction, {
-			path: "tag",
-			select: "name _id color"
-		});
+	serialized(transaction) {
 		const rv = { ...transaction._doc };
 		delete rv.user;
 		return rv;

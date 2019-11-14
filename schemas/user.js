@@ -34,7 +34,8 @@ const userSchema = new Schema(
 			active: [
 				{
 					type: Schema.Types.ObjectId,
-					ref: "Notes"
+					ref: "Notes",
+					autopopulate: true
 				}
 			]
 		},
@@ -56,7 +57,7 @@ const userSchema = new Schema(
 	{ timestamps: true }
 );
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
 	const user = this;
 
 	if (user.isModified("password")) {
@@ -71,5 +72,7 @@ userSchema.pre("save", async function(next) {
 	}
 	next();
 });
+
+userSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = userSchema;

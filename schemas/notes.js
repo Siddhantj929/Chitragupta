@@ -6,7 +6,8 @@ const noteSchema = new Schema(
 		tag: {
 			type: Schema.Types.ObjectId,
 			ref: "Tags",
-			required: true
+			required: true,
+			autopopulate: true
 		},
 		user: {
 			type: Schema.Types.ObjectId,
@@ -30,5 +31,7 @@ const noteSchema = new Schema(
 		timestamps: true
 	}
 );
+
+noteSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = noteSchema;

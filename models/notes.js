@@ -1,4 +1,4 @@
-const noteSchema = require("../schemas/note");
+const noteSchema = require("../schemas/notes");
 const mongoose = require("mongoose");
 const BaseModel = require("./base");
 
@@ -10,15 +10,17 @@ class NoteModel extends BaseModel {
 	}
 
 	async findAllAndUpdate(options, data) {
-		const instances = await this.instance.findAndUpdate(options, data);
-		return instances.map(async i => await this.serialized(i));
+		await this.instance.updateMany(options, data);
+		const results = await this.instance.find(options);
+		return results.map(async i => await this.serialized(i));
 	}
 
-	async serialized(base_note) {
-		const note = await Notes.populate(base_note, {
-			path: "tag",
-			select: "name _id color"
-		});
+	async findAllSorted(options) {
+		const instances = await this.instance.find(options, null, { sort: '-createdAt' });
+		return instances.map(i => this.serialized(i));
+	}
+
+	serialized(note) {
 		const rv = { ...note._doc };
 		delete rv.user;
 		return rv;

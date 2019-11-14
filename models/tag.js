@@ -10,7 +10,8 @@ class TagModel extends BaseModel {
 	}
 
 	async findByNameAndUser({ name, user }) {
-		return await this.findAll({ name, user })[0];
+		const tag = await this.instance.findOne({ name, user });
+		return this.serialized(tag);
 	}
 
 	serialized(tag) {

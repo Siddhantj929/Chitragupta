@@ -8,17 +8,13 @@ class TagService extends BaseService {
 
 	async create(tagData) {
 		let tag = await this.check(tagData);
-
-		if (tag) throw new Error("Tag already exists");
-
-		return await this.model.insert(tagData);
+		return tag ? tag : await this.model.insert(tagData);
 	}
 
-	check(data) {
-		this.model
-			.findByNameAndUser(data)
-			.then(d => d)
-			.catch(e => false);
+	async check(data) {
+		console.log(data);
+		const tag = await this.model.findByNameAndUser({ name: data.name, user: data.user });
+		return tag;
 	}
 }
 

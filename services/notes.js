@@ -15,20 +15,29 @@ class NoteService extends BaseService {
 		);
 	}
 
-	async updateQueue(userId) {
-		const user = await UserService.findById(userId);
-		const tags = user.notes.active.map(e => e.tag);
-		const vacancy = config.notes.maxActive - user.notes.active.length;
-		const queue = await this.model
-			.findAll({
-				user: userId,
-				isActive: false,
-				isComplete: false,
-				tag: { $nin: tags }
-			})
-			.sort("-date");
+	async findAll(options) {
+		return await this.model.findAll(options);
+	}
 
-		user.notes.active.push(queue.slice(0, vacancy));
+	async updateQueue(userId) {
+		const user = await UserService.read(userId);
+		const tags = user.notes.active.map(e => {
+			if (e.tag) return e.tag._id;
+		});
+		const vacancy = config.notes.maxActive - user.notes.active.length;
+		const queue = await this.model.findAllSorted({
+			user: userId,
+			isActive: false,
+			isComplete: false,
+			tag: { $nin: tags }
+		});
+
+		const selectedNotes = queue.slice(0, vacancy);
+
+		// update selected notes
+		await this.markComplete(selectedNotes);
+
+		user.notes.active = user.notes.active.concat(selectedNotes);
 
 		return await UserService.update(userId, user);
 	}

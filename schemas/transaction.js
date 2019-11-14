@@ -6,7 +6,8 @@ const transactionSchema = new Schema(
 		tag: {
 			type: Schema.Types.ObjectId,
 			ref: "Tags",
-			required: true
+			required: true,
+			autopopulate: true
 		},
 		user: {
 			type: Schema.Types.ObjectId,
@@ -31,7 +32,7 @@ const transactionSchema = new Schema(
 	}
 );
 
-transactionSchema.pre("save", async function(next) {
+transactionSchema.pre("save", async function (next) {
 	// Check if the transaction is profit or loss
 	const transaction = this;
 	if (transaction.isModified("amount")) {
@@ -39,5 +40,7 @@ transactionSchema.pre("save", async function(next) {
 	}
 	next();
 });
+
+transactionSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = transactionSchema;
