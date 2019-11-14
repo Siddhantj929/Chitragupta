@@ -95,6 +95,10 @@ class UserService extends BaseService {
 
 		return { earnings: earningAudit, expenses: expenseAudit, tasks: notesAudit };
 	}
+
+	async update(id, data) {
+		return await super.update(id, data);
+	}
 }
 
 module.exports = new UserService();

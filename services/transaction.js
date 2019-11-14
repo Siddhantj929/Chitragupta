@@ -36,7 +36,7 @@ class TransactionService extends BaseService {
 		}
 
 		// Updating user
-		await UserService.update(
+		const user = await UserService.update(
 			transactionData.user._id,
 			transactionData.user
 		);
