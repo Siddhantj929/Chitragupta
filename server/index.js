@@ -9,8 +9,8 @@ const config = require("../config");
 const server = express();
 
 // Body parser
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
+server.use(bodyParser.json({ limit: '50mb' }));
+server.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
 
 // Logger
 server.use(morgan("dev"));

@@ -25,7 +25,7 @@ module.exports = app => {
 	);
 
 	router.put("/:id", ifAuth, (req, res) =>
-		NoteService.update({ _id: req.params.id }, req.body)
+		NoteService.update(req.params.id, req.body)
 			.then(data => res.status(200).send(response(data, true, null)))
 			.catch(err => res.status(400).send(response(null, false, err)))
 	);

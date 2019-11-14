@@ -15,12 +15,12 @@ class UserModel extends BaseModel {
 		const user = await Users.findOne({ email });
 
 		if (!user)
-			throw new Error({ error: "Invalid login credentials: Email" });
+			throw new Error("Invalid login credentials: Email");
 
 		const isPasswordMatch = await bcrypt.compare(password, user.password);
 
 		if (!isPasswordMatch)
-			throw new Error({ error: "Invalid login credentials: Password" });
+			throw new Error("Invalid login credentials: Password");
 
 		return await this.serialized(user);
 	}

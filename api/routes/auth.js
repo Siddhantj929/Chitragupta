@@ -1,14 +1,18 @@
 const { Router } = require("express");
+const accessMultipart = require("../middlewares/multipart");
 const AuthService = require("../../services/auth");
 const response = require("../response");
 
 const router = Router();
 
 module.exports = app => {
-	router.post("/signup", (req, res) =>
-		AuthService.signup(req.body)
+	router.post("/signup", accessMultipart, (req, res) =>
+		AuthService.signup({ ...req.body, image: req.files.image.path })
 			.then(data => res.status(201).send(response(data, true, null)))
-			.catch(err => res.status(400).send(response(null, false, err)))
+			.catch(err => {
+				console.log(err.message);
+				res.status(400).send(response(null, false, err))
+			})
 	);
 
 	router.post("/login", (req, res) =>

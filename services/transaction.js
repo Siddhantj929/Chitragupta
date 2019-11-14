@@ -1,7 +1,7 @@
 const BaseService = require("./base");
 const TransactionModel = require("../models/transaction");
-const TagService = require("../services/tag");
-const UserService = require("../services/user");
+const TagService = require("./tag");
+const UserService = require("./user");
 
 class TransactionService extends BaseService {
 	constructor() {

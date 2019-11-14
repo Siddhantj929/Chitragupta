@@ -18,7 +18,7 @@ class BaseModel {
 	}
 
 	async update(id, newData) {
-		const updatedUser = await this.instance.findByIdAndUpdate(id, newData);
+		const updatedUser = await this.instance.findByIdAndUpdate(id, newData, { new: true });
 		return this.serialized(updatedUser);
 	}
 

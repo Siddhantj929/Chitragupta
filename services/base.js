@@ -11,8 +11,8 @@ class BaseService {
 		return await this.model.findById(id);
 	}
 
-	async readAll() {
-		return await this.model.findAll();
+	async readAll({ user }) {
+		return await this.model.findAll({ user });
 	}
 
 	async update(id, data) {

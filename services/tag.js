@@ -12,7 +12,6 @@ class TagService extends BaseService {
 	}
 
 	async check(data) {
-		console.log(data);
 		const tag = await this.model.findByNameAndUser({ name: data.name, user: data.user });
 		return tag;
 	}

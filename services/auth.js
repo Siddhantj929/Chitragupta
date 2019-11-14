@@ -6,8 +6,12 @@ const generateAuthToken = async user =>
 	jwt.sign({ _id: user._id }, config.JWT_KEY);
 
 const signup = async userData => {
-	if (await UserService.findByCredentials(email, password))
-		throw new Error("User already exists");
+	try {
+		if (await UserService.findByCredentials(userData.email, userData.password))
+			throw 1;
+	} catch (err) {
+		if (err === 1) throw new Error("User already exists");
+	}
 
 	const user = await UserService.create(userData);
 	return {

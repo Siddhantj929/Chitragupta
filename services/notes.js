@@ -1,6 +1,7 @@
 const BaseService = require("./base");
 const NoteModel = require("../models/notes");
 const UserService = require("../services/user");
+const TagService = require("../services/tag");
 const config = require("../config");
 
 class NoteService extends BaseService {
@@ -8,11 +9,34 @@ class NoteService extends BaseService {
 		super(NoteModel);
 	}
 
+	async create(data) {
+		// Checking for tag
+		let tag;
+
+		const tagData = {
+			...data.tag,
+			user: data.user
+		};
+
+		delete tagData._id;
+
+		tag = await TagService.create(tagData);
+
+		data.tag = tag._id;
+
+		return await super.create(data);
+	}
+
 	async markComplete(noteIds) {
 		return await this.model.findAllAndUpdate(
 			{ _id: { $in: noteIds } },
 			{ isActive: false, isComplete: true }
 		);
+	}
+
+	async update(id, data) {
+		delete data.tag;
+		return await super.update(id, data);
 	}
 
 	async findAll(options) {

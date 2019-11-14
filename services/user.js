@@ -27,7 +27,7 @@ class UserService extends BaseService {
 		return await super.create(data);
 	}
 
-	async findByCredentials({ email, password }) {
+	async findByCredentials(email, password) {
 		return await this.model.findByCredentials(email, password);
 	}
 

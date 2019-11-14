@@ -7,7 +7,9 @@ const noteSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: "Tags",
 			required: true,
-			autopopulate: true
+			autopopulate: {
+				select: 'name _id color'
+			}
 		},
 		user: {
 			type: Schema.Types.ObjectId,
