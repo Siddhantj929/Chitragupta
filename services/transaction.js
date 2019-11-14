@@ -44,6 +44,38 @@ class TransactionService extends BaseService {
 		return transaction;
 	}
 
+	async update(id, data) {
+		// Removing the ability to update tag
+		delete data.tag;
+
+		// Reverting changes
+		const oldTransaction = await this.model.findById(id);
+		data.user.current.balance -= oldTransaction.amount;
+		if (oldTransaction.isProfit) {
+			data.user.balance.savings -= oldTransaction.amount;
+		} else {
+			data.user.balance.expenses += transaction.amount;
+		}
+
+		// Adding new changes
+		const transaction = await this.model.update(id, data);
+
+		data.user.balance.current += transaction.amount;
+		if (transaction.isProfit) {
+			data.user.balance.savings += transaction.amount;
+		} else {
+			data.user.balance.expenses -= transaction.amount;
+		}
+
+		// Updating user
+		await UserService.update(
+			data.user._id,
+			data.user
+		);
+
+		return transaction;
+	}
+
 	async findAll(options) {
 		return await this.model.findAll(options);
 	}
