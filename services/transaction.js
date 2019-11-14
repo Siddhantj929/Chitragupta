@@ -36,7 +36,7 @@ class TransactionService extends BaseService {
 		}
 
 		// Updating user
-		const user = await UserService.update(
+		await UserService.update(
 			transactionData.user._id,
 			transactionData.user
 		);
@@ -80,8 +80,8 @@ class TransactionService extends BaseService {
 		return await this.model.findAll(options);
 	}
 
-	async readAllByUser(data) {
-		await this.model.findAll({ user: data.user });
+	async readAllByUser(user) {
+		return await this.model.findAll({ user });
 	}
 }
 

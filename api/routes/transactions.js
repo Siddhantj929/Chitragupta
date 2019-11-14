@@ -9,14 +9,11 @@ module.exports = app => {
 	router.post("/", ifAuth, (req, res) =>
 		TransactionService.create(req.body)
 			.then(data => res.status(201).send(response(data, true, null)))
-			.catch(err => {
-				console.log(err);
-				res.status(400).send(response(null, false, err))
-			})
+			.catch(err => res.status(400).send(response(null, false, err)))
 	);
 
 	router.get("/", ifAuth, (req, res) =>
-		TransactionService.readAllByUser(req.body)
+		TransactionService.readAllByUser(req.user)
 			.then(data => res.status(200).send(response(data, true, null)))
 			.catch(err => res.status(400).send(response(null, false, err)))
 	);

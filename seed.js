@@ -10,7 +10,7 @@ const seed = async () => {
 	const user = await UserService.create({
 		name: "Siddhant Jain",
 		title: "Full Stack Developer",
-		email: "siddhantj929@gmail.com",
+		email: "siddhantj2123@gmail.com",
 		password: "S!ddh@nt",
 		image:
 			"https://ae01.alicdn.com/kf/HTB1w.uMacfrK1RkSnb4q6xHRFXay/Pet-Glasses-Dog-Glasses-Cute-cat-toy-for-Little-Dog-Eye-Wear-Dog-Sunglasses-Photos-Props.jpg"
