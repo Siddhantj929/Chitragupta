@@ -81,7 +81,7 @@ class TransactionService extends BaseService {
 	}
 
 	async readAllByUser(user) {
-		return await this.model.findAll({ user });
+		return await this.model.findAllSorted({ user });
 	}
 }
 

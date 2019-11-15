@@ -7,13 +7,9 @@ import Icon from "@material-ui/core/Icon";
 import Zoom from "@material-ui/core/Zoom";
 
 import Task from "../Task";
+import Placeholder from "../Placeholder";
 
 import Context from "../App/context";
-
-const tag = {
-	name: "Webfixerr",
-	color: "#339e3a"
-};
 
 const useStyles = makeStyles(theme => ({
 	ListHeader: {
@@ -39,7 +35,9 @@ const TaskList = props => {
 	const theme = useTheme();
 	const context = useContext(Context);
 
-	const { title, showAddButton } = props;
+	const { title, showAddButton, items } = props;
+
+	const tasks = items;
 
 	const transitionDuration = {
 		enter: theme.transitions.duration.enteringScreen,
@@ -52,16 +50,25 @@ const TaskList = props => {
 				<Typography variant="button">{title}</Typography>
 				{showAddButton && <Button color="primary">Add New</Button>}
 			</div>
-			{[0, 1, 2].map((e, i) => (
-				<div
-					className="animated fadeInUp fast"
-					style={{
-						animationDelay: `${i * transitionDuration.exit}ms`
-					}}
-				>
-					<Task isActive complete tag={tag} />
-				</div>
-			))}
+			{tasks &&
+				tasks.map((e, i) => (
+					<div
+						className="animated fadeInUp fast"
+						style={{
+							animationDelay: `${i * transitionDuration.exit}ms`
+						}}
+					>
+						<Task
+							description={e.description}
+							isActive={e.isActive}
+							complete={e.isComplete}
+							tag={e.tag}
+						/>
+					</div>
+				))}
+			{!tasks || tasks.length === 0 ? (
+				<Placeholder name="Task" handler={null} />
+			) : null}
 			<Zoom
 				in={context.tasksCompleted.length !== 0}
 				timeout={transitionDuration}

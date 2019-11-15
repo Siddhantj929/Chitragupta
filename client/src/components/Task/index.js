@@ -108,8 +108,7 @@ const Task = props => {
 					/>
 				)}
 				<Typography variant="body1">
-					Paper can be used to build surface or other elements for
-					your application.
+					{props.description}
 				</Typography>
 			</div>
 			<div className={tags}>

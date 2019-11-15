@@ -36,7 +36,7 @@ const userSchema = new Schema(
 					type: Schema.Types.ObjectId,
 					ref: "Notes",
 					autopopulate: {
-						select: '-user'
+						select: "-user"
 					}
 				}
 			]
@@ -50,7 +50,7 @@ const userSchema = new Schema(
 				type: Number,
 				default: 0
 			},
-			savings: {
+			earnings: {
 				type: Number,
 				default: 0
 			}
@@ -59,7 +59,7 @@ const userSchema = new Schema(
 	{ timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function(next) {
 	const user = this;
 
 	if (user.isModified("password")) {

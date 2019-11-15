@@ -9,6 +9,11 @@ class TransactionModel extends BaseModel {
 		super(Transactions);
 	}
 
+	async findAllSorted(options) {
+		const instances = await this.instance.find(options, null, { sort: '-updatedAt' });
+		return instances.map(i => this.serialized(i));
+	}
+
 	serialized(transaction) {
 		const rv = { ...transaction._doc };
 		delete rv.user;

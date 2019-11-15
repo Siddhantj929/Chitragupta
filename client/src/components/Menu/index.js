@@ -39,7 +39,7 @@ const CustomizedMenu = props => {
 			onClose={handleClose}
 		>
 			{items.map((e, i) => (
-				<StyledMenuItem key={i}>
+				<StyledMenuItem key={i} onClick={e.handler}>
 					{e.icon && <ListItemIcon>{e.icon}</ListItemIcon>}
 					<ListItemText primary={e.text} />
 				</StyledMenuItem>

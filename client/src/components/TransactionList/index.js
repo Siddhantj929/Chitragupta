@@ -1,14 +1,10 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 import Transaction from "../Transaction";
-
-const tag = {
-	name: "Webfixerr",
-	color: "#339e3a"
-};
+import Placeholder from "../Placeholder";
 
 const useStyles = makeStyles(theme => ({
 	ListHeader: {
@@ -22,7 +18,14 @@ const useStyles = makeStyles(theme => ({
 
 const TransactionList = props => {
 	const classes = useStyles();
+	const theme = useTheme();
+
 	const { title, showAddButton } = props;
+
+	const transitionDuration = {
+		enter: theme.transitions.duration.enteringScreen,
+		exit: theme.transitions.duration.leavingScreen
+	};
 
 	return (
 		<div className="TransactionList">
@@ -30,9 +33,20 @@ const TransactionList = props => {
 				<Typography variant="button">{title}</Typography>
 				{showAddButton && <Button color="primary">Add New</Button>}
 			</div>
-			<Transaction tag={tag} complete />
-			<Transaction tag={tag} />
-			<Transaction tag={tag} complete />
+			{props.items &&
+				props.items.map((e, i) => (
+					<div
+						className="animated fadeInUp fast"
+						style={{
+							animationDelay: `${i * transitionDuration.exit}ms`
+						}}
+					>
+						<Transaction tag={e.tag} />
+					</div>
+				))}
+			{!props.items || props.items.length === 0 ? (
+				<Placeholder name="Task" handler={null} />
+			) : null}
 		</div>
 	);
 };

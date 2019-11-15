@@ -57,15 +57,16 @@ const Accordian = props => {
 		<ExpansionPanel {...props}>
 			<ExpansionPanelSummary expandIcon={<Icon>expand_more</Icon>}>
 				<Typography className={classes.heading}>
-					Current Balance
+					{props.title}
 				</Typography>
 				<Typography className={classes.secondaryHeading}>
-					₹ 10,000 /-
+					{props.value}
 				</Typography>
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.accordianSummary}>
-				<AccordianItem primary="Current Balance" secondary="10 Notes" />
-				<AccordianItem primary="Current Balance" secondary="10 Notes" />
+				{props.items && props.items.map(e => (
+					<AccordianItem primary={e.title} secondary={e.value} />
+				))}
 			</ExpansionPanelDetails>
 		</ExpansionPanel>
 	);

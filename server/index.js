@@ -2,15 +2,25 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const config = require("../config");
 
 // Initialising express server
 const server = express();
 
+// CORS
+server.use(cors());
+
 // Body parser
-server.use(bodyParser.json({ limit: '50mb' }));
-server.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }));
+server.use(bodyParser.json({ limit: "50mb" }));
+server.use(
+	bodyParser.urlencoded({
+		limit: "50mb",
+		extended: true,
+		parameterLimit: 1000000
+	})
+);
 
 // Logger
 server.use(morgan("dev"));

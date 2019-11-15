@@ -34,8 +34,8 @@ const App = () => {
 	const classes = useStyles();
 
 	// Auth
-	const [token, setToken] = useState("1");
-	const [user, setUser] = useState(1);
+	const [token, setToken] = useState(null);
+	const [user, setUser] = useState(null);
 
 	const login = (user, token) => {
 		setUser(user);
@@ -65,10 +65,15 @@ const App = () => {
 	};
 
 	// Transaction Context
-	const [latestTransactions, setLatestTransactions] = useState();
+	const [transactions, setTransactions] = useState([]);
 
-	const updateLatestTransactions = transactions =>
-		setLatestTransactions([...latestTransactions, transactions]);
+	const updateTransactions = transactions =>
+		setTransactions([...transactions, transactions]);
+
+	// Audit Context
+	const [audit, setAudit] = useState(null);
+
+	const addAudit = audit => setAudit(audit);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -82,10 +87,12 @@ const App = () => {
 					selectTask,
 					deSelectTask,
 					tasksCompleted,
-					latestTransactions,
-					updateLatestTransactions,
+					transactions,
+					updateTransactions,
 					openLoader,
-					closeLoader
+					closeLoader,
+					audit,
+					addAudit
 				}}
 			>
 				<div className={classes.App}>

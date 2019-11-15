@@ -9,6 +9,7 @@ import Tag from "../Tag";
 import Menu from "../Menu";
 
 import { toDateString } from "../../config/date";
+import { toINR } from "../../config/currency";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -65,16 +66,15 @@ const Transaction = props => {
 		<Paper className={classes.root}>
 			<div className={classes.text}>
 				<Typography variant="body1" className={classes.reason}>
-					Paper can be used to build surface or other elements for
-					your application.
+					{props.reason}
 				</Typography>
 				<Typography variant="body1" className={classes.amount}>
-					₹ 2,000 /-
+					{toINR(props.amount)}
 				</Typography>
 			</div>
 			{props.tag && <Tag name={props.tag.name} color={props.tag.color} />}
 			<Typography variant="body2" color="textSecondary" component="span">
-				{toDateString(new Date())}
+				{toDateString(props.updatedAt)}
 			</Typography>
 			<Icon
 				className={classes.menuIcon}
