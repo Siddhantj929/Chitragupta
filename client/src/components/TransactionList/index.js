@@ -45,7 +45,11 @@ const TransactionList = props => {
 					</div>
 				))}
 			{!props.items || props.items.length === 0 ? (
-				<Placeholder name="Task" handler={null} />
+				<Placeholder
+					text="Add new Transaction"
+					showIcon
+					handler={null}
+				/>
 			) : null}
 		</div>
 	);

@@ -1,31 +1,36 @@
 import React from "react";
 
 const stateContext = {
-	openLoader: () => { },
-	closeLoader: () => { }
+	openLoader: () => {},
+	closeLoader: () => {}
 };
 
 const authContext = {
 	token: null,
 	user: null,
-	login: (user, token) => { },
-	logout: () => { }
+	login: (user, token) => {},
+	logout: () => {}
 };
 
 const taskContext = {
 	tasksCompleted: [],
-	selectTask: taskId => { },
-	deSelectTask: taskId => { }
+	selectTask: taskId => {},
+	deSelectTask: taskId => {}
 };
 
 const transactionContext = {
 	transactions: [],
-	updateTransactions: transactions => { }
+	updateTransactions: transactions => {}
+};
+
+const tagContext = {
+	tags: [],
+	addTag: tag => {}
 };
 
 const auditContext = {
 	audit: null,
-	addAudit: audit => { }
+	addAudit: audit => {}
 };
 
 export default React.createContext({
@@ -33,5 +38,6 @@ export default React.createContext({
 	...taskContext,
 	...transactionContext,
 	...stateContext,
-	...auditContext
+	...auditContext,
+	...tagContext
 });

@@ -67,7 +67,7 @@ const TaskList = props => {
 					</div>
 				))}
 			{!tasks || tasks.length === 0 ? (
-				<Placeholder name="Task" handler={null} />
+				<Placeholder text="Add new Task" showIcon handler={null} />
 			) : null}
 			<Zoom
 				in={context.tasksCompleted.length !== 0}

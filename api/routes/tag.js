@@ -13,7 +13,7 @@ module.exports = app => {
 	);
 
 	router.get("/", ifAuth, (req, res) =>
-		TagService.readAllByUser(req.body)
+		TagService.readAll(req.body)
 			.then(data => res.status(200).send(response(data, true, null)))
 			.catch(err => res.status(400).send(response(null, false, err)))
 	);

@@ -27,12 +27,12 @@ const useStyles = makeStyles(theme => ({
 const Placeholder = props => {
 	const classes = useStyles();
 
-	const { name, handler } = props;
+	const { text, handler, showIcon } = props;
 
 	return (
 		<div className={classes.root} onClick={handler}>
-			<Icon className={classes.icon}>note_add</Icon>
-			Add new {name}
+			{showIcon && <Icon className={classes.icon}>note_add</Icon>}
+			{text}
 		</div>
 	);
 };

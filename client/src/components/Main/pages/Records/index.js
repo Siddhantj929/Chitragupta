@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Accordian from "../../../Accordian";
+import Placeholder from "../../../Placeholder";
+
+import Context from "../../../App/context";
 
 const useStyles = makeStyles(theme => ({
 	RecordsPage: {
@@ -28,58 +31,84 @@ const useStyles = makeStyles(theme => ({
 
 const months = [
 	{
-		value: "JAN",
+		value: 0,
 		label: "January"
 	},
 	{
-		value: "FEB",
+		value: 1,
 		label: "Feburary"
 	},
 	{
-		value: "MAR",
+		value: 2,
 		label: "March"
 	},
 	{
-		value: "APR",
+		value: 3,
 		label: "April"
 	},
 	{
-		value: "MAY",
+		value: 4,
 		label: "May"
 	},
 	{
-		value: "JUN",
+		value: 5,
 		label: "June"
 	},
 	{
-		value: "JUL",
+		value: 6,
 		label: "July"
 	},
 	{
-		value: "AUG",
+		value: 7,
 		label: "August"
 	},
 	{
-		value: "SEP",
+		value: 8,
 		label: "September"
 	},
 	{
-		value: "OCT",
+		value: 9,
 		label: "October"
 	},
 	{
-		value: "NOV",
+		value: 10,
 		label: "November"
 	},
 	{
-		value: "DEC",
+		value: 11,
 		label: "December"
 	}
 ];
 
+const objectToAccordianItems = obj => {
+	const rv = [];
+
+	Object.keys(obj).forEach(key => {
+		rv.push({
+			title: key,
+			value: obj[key]
+		});
+	});
+
+	return rv.length === 0 ? null : rv;
+};
+
 const RecordsPage = () => {
+	const current = new Date();
 	const classes = useStyles();
-	const [month, setMonth] = React.useState("NOV");
+	const { user, audit } = useContext(Context);
+
+	// Data
+	let earnings,
+		expenses,
+		tasksCompleted = null;
+
+	if (audit.earnings) earnings = objectToAccordianItems(audit.earnings);
+	if (audit.expenses) expenses = objectToAccordianItems(audit.expenses);
+	if (audit.tasks) tasksCompleted = objectToAccordianItems(audit.tasks);
+
+	// Month
+	const [month, setMonth] = React.useState(current.getMonth());
 
 	const handleChange = event => {
 		setMonth(event.target.value);
@@ -115,9 +144,33 @@ const RecordsPage = () => {
 				</Typography>
 			</div>
 			<div className={classes.Section}>
-				<Accordian expanded />
-				<Accordian expanded />
-				<Accordian expanded />
+				{!earnings && <Placeholder text="No Earnings Found" />}
+				{!expenses && <Placeholder text="No Expenses Found" />}
+				{!tasksCompleted && <Placeholder text="No Tasks Completed" />}
+				{earnings && (
+					<Accordian
+						expanded
+						title="Earnings"
+						value={user.balance.earnings}
+						items={earnings}
+					/>
+				)}
+				{expenses && (
+					<Accordian
+						expanded
+						title="Expenses"
+						value={user.balance.expenses}
+						items={expenses}
+					/>
+				)}
+				{tasksCompleted && (
+					<Accordian
+						expanded
+						title="Tasks Completed"
+						value={user.notes.completed}
+						items={tasksCompleted}
+					/>
+				)}
 			</div>
 		</div>
 	);

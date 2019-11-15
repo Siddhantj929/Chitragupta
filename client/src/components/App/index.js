@@ -70,6 +70,11 @@ const App = () => {
 	const updateTransactions = transactions =>
 		setTransactions([...transactions, transactions]);
 
+	// Tag Context
+	const [tags, setTags] = useState([]);
+
+	const addTag = tag => setTags([...tags, tag]);
+
 	// Audit Context
 	const [audit, setAudit] = useState(null);
 
@@ -92,7 +97,9 @@ const App = () => {
 					openLoader,
 					closeLoader,
 					audit,
-					addAudit
+					addAudit,
+					tags,
+					addTag
 				}}
 			>
 				<div className={classes.App}>

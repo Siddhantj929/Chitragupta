@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: "column"
 	},
 	accordianItem: {
-		backgroundColor: theme.palette.background.default,
+		backgroundColor: "#f7f7f7",
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(1),
 		marginTop: theme.spacing(0.5),
@@ -64,9 +64,10 @@ const Accordian = props => {
 				</Typography>
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.accordianSummary}>
-				{props.items && props.items.map(e => (
-					<AccordianItem primary={e.title} secondary={e.value} />
-				))}
+				{props.items &&
+					props.items.map(e => (
+						<AccordianItem primary={e.title} secondary={e.value} />
+					))}
 			</ExpansionPanelDetails>
 		</ExpansionPanel>
 	);
