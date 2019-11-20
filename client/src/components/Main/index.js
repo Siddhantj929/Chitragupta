@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -10,6 +10,8 @@ import TasksPage from "./pages/Tasks";
 import TransactionsPage from "./pages/Transactions";
 
 import bottomNavConfig from "../../config/bottomNav";
+
+import Context from "../App/context";
 
 const useStyles = makeStyles(theme => ({
 	BottomNav: {
@@ -26,25 +28,24 @@ const useStyles = makeStyles(theme => ({
 
 const Main = () => {
 	const classes = useStyles();
+	const context = useContext(Context);
 
-	const [navValue, setNavValue] = useState(bottomNavConfig.values.profile);
-
-	const handleNavValueChange = (e, value) => setNavValue(value);
+	const { tab, changeTab } = context;
 
 	return (
 		<Fragment>
 			<Container maxWidth="sm" className={classes.Container}>
-				{navValue === bottomNavConfig.values.profile && <ProfilePage />}
-				{navValue === bottomNavConfig.values.tasks && <TasksPage />}
-				{navValue === bottomNavConfig.values.transactions && (
+				{tab === bottomNavConfig.values.profile && <ProfilePage />}
+				{tab === bottomNavConfig.values.tasks && <TasksPage />}
+				{tab === bottomNavConfig.values.transactions && (
 					<TransactionsPage />
 				)}
-				{navValue === bottomNavConfig.values.records && <RecordsPage />}
+				{tab === bottomNavConfig.values.records && <RecordsPage />}
 			</Container>
 			<BottomNav
 				className={classes.BottomNav}
-				value={navValue}
-				handleChange={handleNavValueChange}
+				value={tab}
+				handleChange={changeTab}
 			/>
 		</Fragment>
 	);

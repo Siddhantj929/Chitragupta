@@ -1,11 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import Context from "../App/context";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -33,36 +34,23 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const currencies = [
-	{
-		value: "USD",
-		label: "$"
-	},
-	{
-		value: "EUR",
-		label: "€"
-	},
-	{
-		value: "BTC",
-		label: "฿"
-	},
-	{
-		value: "JPY",
-		label: "¥"
-	},
-	{
-		value: "NEW",
-		label: "Add new Tag"
-	}
-];
-
 const TransactionForm = () => {
 	const classes = useStyles();
-	const [currency, setCurrency] = React.useState("EUR");
+	const context = useContext(Context);
+
+	const tags = [...context.tags, { _id: -1, name: "Add new Tag" }];
+
+	const [tagName, setTagName] = React.useState(null);
+	const [tagColor, setTagColor] = React.useState("#000000");
+
+	const [tag, setTag] = React.useState(tags[0]._id);
 
 	const handleChange = event => {
-		setCurrency(event.target.value);
+		setTag(event.target.value);
 	};
+
+	const handleNameChange = e => setTagName(e.target.value);
+	const handleColorChange = e => setTagColor(e.target.value);
 
 	return (
 		<Fragment>
@@ -84,39 +72,41 @@ const TransactionForm = () => {
 					fullWidth
 					margin="normal"
 				/>
-				{currency !== "NEW" && (
+				{tag !== -1 && (
 					<TextField
-						id="standard-select-currency"
+						id="standard-select-tag"
 						select
 						fullWidth
 						label="Select"
-						className={classes.textField}
-						value={currency}
+						value={tag}
 						onChange={handleChange}
-						SelectProps={{
-							MenuProps: {
-								className: classes.menu
-							}
-						}}
-						helperText="Please select your currency"
+						helperText="Please select your tag"
 						margin="normal"
 					>
-						{currencies.map(option => (
-							<MenuItem key={option.value} value={option.value}>
-								{option.label}
+						{tags.map(option => (
+							<MenuItem key={option._id} value={option._id}>
+								{option.name}
 							</MenuItem>
 						))}
 					</TextField>
 				)}
-				{currency === "NEW" && (
+				{tag === -1 && (
 					<div className={classes.tagFields}>
 						<TextField
 							id="tag-name"
 							className={classes.tagName}
-							label="Name"
+							label="Tag Name"
 							margin="none"
+							onChange={handleNameChange}
 						/>
-						<Input fullWidth type="color" label="Color" />
+						<TextField
+							fullWidth
+							type="color"
+							label="Tag Color"
+							margin="none"
+							value={tagColor}
+							onChange={handleColorChange}
+						/>
 					</div>
 				)}
 				<Button

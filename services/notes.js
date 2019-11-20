@@ -13,6 +13,8 @@ class NoteService extends BaseService {
 		// Checking for tag
 		let tag;
 
+		console.log(data);
+
 		const tagData = {
 			...data.tag,
 			user: data.user
@@ -24,10 +26,32 @@ class NoteService extends BaseService {
 
 		data.tag = tag._id;
 
-		return await super.create(data);
+		const note = await super.create(data);
+		note.tag = {
+			_id: tag._id,
+			name: tag.name,
+			color: tag.color
+		};
+
+		const updatedUser = await this.updateQueue(data.user._id);
+
+		const queue = updatedUser.notes.active;
+
+		return {
+			note,
+			queue
+		};
 	}
 
-	async markComplete(noteIds) {
+	async markComplete(userId, noteIds) {
+		const user = await UserService.read(userId);
+
+		user.notes.active = user.notes.active.map(e => {
+			if (!noteIds.includes(e._id)) return e;
+		});
+
+		await UserService.update(userId, user);
+
 		return await this.model.findAllAndUpdate(
 			{ _id: { $in: noteIds } },
 			{ isActive: false, isComplete: true }
@@ -49,12 +73,20 @@ class NoteService extends BaseService {
 			if (e.tag) return e.tag._id;
 		});
 		const vacancy = config.notes.maxActive - user.notes.active.length;
-		const queue = await this.model.findAllSorted({
+		let queue = await this.model.findAllSorted({
 			user: userId,
 			isActive: false,
 			isComplete: false,
 			tag: { $nin: tags }
 		});
+
+		if (queue.length === 0) {
+			queue = await this.model.findAllSorted({
+				user: userId,
+				isActive: false,
+				isComplete: false
+			});
+		}
 
 		const selectedNotes = queue.slice(0, vacancy);
 
@@ -64,6 +96,16 @@ class NoteService extends BaseService {
 		user.notes.active = user.notes.active.concat(selectedNotes);
 
 		return await UserService.update(userId, user);
+	}
+
+	async check(user, data) {
+		await this.markComplete(user, data.notes);
+
+		const updatedUser = await this.updateQueue(data.user._id);
+
+		return {
+			queue: updatedUser.notes.active
+		};
 	}
 }
 

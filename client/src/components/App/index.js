@@ -9,6 +9,8 @@ import Main from "../Main";
 import Sign from "../Sign";
 import Loader from "../Loader";
 
+import bottomNavConfig from "../../config/bottomNav";
+
 import Context from "./context";
 
 const theme = createMuiTheme({
@@ -20,7 +22,7 @@ const theme = createMuiTheme({
 		}
 	},
 	typography: {
-		fontSize: 12
+		// fontSize: 12
 	}
 });
 
@@ -39,6 +41,7 @@ const App = () => {
 
 	const login = (user, token) => {
 		setUser(user);
+		updateQueue(user.notes.active);
 		setToken(token);
 	};
 
@@ -52,6 +55,16 @@ const App = () => {
 
 	const closeLoader = () => setIsLoading(false);
 	const openLoader = () => setIsLoading(true);
+
+	// Tasks Context
+	const [tasks, setTasks] = useState([]);
+
+	const addTasks = newTasks => setTasks([...tasks, ...newTasks]);
+
+	// Queue Context
+	const [queue, setQueue] = useState([]);
+
+	const updateQueue = newQueue => setQueue(newQueue);
 
 	// Tasks Completion Event
 	const [tasksCompleted, setTasksCompleted] = useState([]);
@@ -67,18 +80,23 @@ const App = () => {
 	// Transaction Context
 	const [transactions, setTransactions] = useState([]);
 
-	const updateTransactions = transactions =>
-		setTransactions([...transactions, transactions]);
+	const updateTransactions = newTransactions =>
+		setTransactions([...transactions, ...newTransactions]);
 
 	// Tag Context
 	const [tags, setTags] = useState([]);
 
-	const addTag = tag => setTags([...tags, tag]);
+	const addTags = newTags => setTags([...tags, ...newTags]);
 
 	// Audit Context
 	const [audit, setAudit] = useState(null);
 
 	const addAudit = audit => setAudit(audit);
+
+	// Tab Context
+	const [tab, setTab] = useState(bottomNavConfig.values.profile);
+
+	const changeTab = (e, value) => setTab(value);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -99,7 +117,13 @@ const App = () => {
 					audit,
 					addAudit,
 					tags,
-					addTag
+					addTags,
+					tab,
+					changeTab,
+					tasks,
+					addTasks,
+					queue,
+					updateQueue
 				}}
 			>
 				<div className={classes.App}>

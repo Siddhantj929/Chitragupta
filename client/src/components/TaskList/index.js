@@ -9,6 +9,8 @@ import Zoom from "@material-ui/core/Zoom";
 import Task from "../Task";
 import Placeholder from "../Placeholder";
 
+import bottomNavConfig from "../../config/bottomNav";
+
 import Context from "../App/context";
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +37,7 @@ const TaskList = props => {
 	const theme = useTheme();
 	const context = useContext(Context);
 
-	const { title, showAddButton, items } = props;
+	const { title, showAddButton, items, addButtonHandler } = props;
 
 	const tasks = items;
 
@@ -48,7 +50,11 @@ const TaskList = props => {
 		<div className="TaskList">
 			<div className={classes.ListHeader}>
 				<Typography variant="button">{title}</Typography>
-				{showAddButton && <Button color="primary">Add New</Button>}
+				{showAddButton && (
+					<Button color="primary" onClick={addButtonHandler}>
+						Add New
+					</Button>
+				)}
 			</div>
 			{tasks &&
 				tasks.map((e, i) => (
@@ -67,7 +73,13 @@ const TaskList = props => {
 					</div>
 				))}
 			{!tasks || tasks.length === 0 ? (
-				<Placeholder text="Add new Task" showIcon handler={null} />
+				<Placeholder
+					text="Add new Task"
+					showIcon
+					handler={e =>
+						context.changeTab(e, bottomNavConfig.values.tasks)
+					}
+				/>
 			) : null}
 			<Zoom
 				in={context.tasksCompleted.length !== 0}

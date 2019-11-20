@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Cockpit from "../../../Cockpit";
@@ -8,6 +8,7 @@ import TransactionList from "../../../TransactionList";
 import InlineLoader from "../../../InlineLoader";
 
 import { toINR } from "../../../../config/currency";
+import bottomNavConfig from "../../../../config/bottomNav";
 
 import Context from "../../../App/context";
 
@@ -32,64 +33,95 @@ const ProfilePage = () => {
 		context.transactions.slice(3)
 	);
 
-	const addAudit = data => {
-		setAudit(data);
-		context.addAudit(data);
-	};
+	useEffect(() => {
+		const addTags = data => {
+			if (data.length !== 0) {
+				context.addTags(data);
+			}
+		};
 
-	const addTransactions = data => {
-		setTransactions(data.slice(3));
-		context.updateTransactions(data);
-	};
+		const addAudit = data => {
+			setAudit(data);
+			context.addAudit(data);
+		};
 
-	const fetchAudit = async () => {
-		const month = new Date().getMonth();
-		const year = new Date().getFullYear();
+		const addTransactions = data => {
+			if (data.length !== 0) {
+				console.log(data);
+				setTransactions(data.slice(3));
+				context.updateTransactions(data);
+			}
+		};
 
-		const response = await fetch(
-			`http://localhost:5000/v1/api/audit/${month}/${year}`,
-			{
+		const fetchAudit = async () => {
+			const month = new Date().getMonth();
+			const year = new Date().getFullYear();
+
+			const response = await fetch(
+				`http://localhost:5000/v1/api/audit/${month}/${year}`,
+				{
+					method: "GET",
+					headers: {
+						Authorization: `Bearer ${context.token}`
+					}
+				}
+			);
+
+			const data = await response.json();
+			console.log("audit", data);
+
+			if (data.error) {
+				// handle error
+				console.log(data.error);
+			} else {
+				addAudit(data.payload);
+			}
+		};
+
+		const fetchTags = async () => {
+			const response = await fetch(`http://localhost:5000/v1/api/tags`, {
 				method: "GET",
 				headers: {
 					Authorization: `Bearer ${context.token}`
 				}
+			});
+
+			const data = await response.json();
+			console.log("tags", data);
+
+			if (data.error) {
+				// handle error
+				console.log(data.error);
+			} else {
+				addTags(data.payload);
 			}
-		);
+		};
 
-		const data = await response.json();
-		console.log("audit", data);
-
-		if (data.error) {
-			// handle error
-			console.log(data.error);
-		} else {
-			addAudit(data.payload);
-		}
-	};
-
-	const fetchTransactions = async () => {
-		const response = await fetch(
-			`http://localhost:5000/v1/api/transactions`,
-			{
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${context.token}`
+		const fetchTransactions = async () => {
+			const response = await fetch(
+				`http://localhost:5000/v1/api/transactions`,
+				{
+					method: "GET",
+					headers: {
+						Authorization: `Bearer ${context.token}`
+					}
 				}
+			);
+
+			const data = await response.json();
+
+			if (data.error) {
+				// handle error
+				console.log(data.error);
+			} else {
+				addTransactions(data.payload);
 			}
-		);
+		};
 
-		const data = await response.json();
-
-		if (data.error) {
-			// handle error
-			console.log(data.error);
-		} else {
-			addTransactions(data);
-		}
-	};
-
-	if (!audit) fetchAudit();
-	if (!transactions) fetchTransactions();
+		if (!audit) fetchAudit();
+		if (context.tags.length === 0) fetchTags();
+		if (context.transactions.length === 0) fetchTransactions();
+	}, [context, audit]);
 
 	return (
 		<div className={classes.ProfilePage}>
@@ -124,13 +156,26 @@ const ProfilePage = () => {
 				)}
 			</div>
 			<div className={classes.Section}>
-				<TaskList title="Active Tasks" items={tasks} showAddButton />
+				<TaskList
+					title="Active Tasks"
+					addButtonHandler={e =>
+						context.changeTab(e, bottomNavConfig.values.tasks)
+					}
+					items={tasks}
+					showAddButton
+				/>
 			</div>
 			<div className={classes.Section}>
 				<TransactionList
 					title="Latest Transactions"
 					items={transactions}
 					showAddButton
+					addButtonHandler={e =>
+						context.changeTab(
+							e,
+							bottomNavConfig.values.transactions
+						)
+					}
 				/>
 			</div>
 		</div>

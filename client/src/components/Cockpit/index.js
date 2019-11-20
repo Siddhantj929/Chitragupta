@@ -52,12 +52,17 @@ const Cockpit = () => {
 
 	const menuItems = [
 		{
-			icon: <Icon fontSize="small">edit</Icon>,
+			icon: <Icon>visibility</Icon>,
+			text: "View",
+			handler: null
+		},
+		{
+			icon: <Icon>edit</Icon>,
 			text: "Edit Profile",
 			handler: null
 		},
 		{
-			icon: <Icon fontSize="small">exit_to_app</Icon>,
+			icon: <Icon>exit_to_app</Icon>,
 			text: "Logout",
 			handler: context.logout
 		}

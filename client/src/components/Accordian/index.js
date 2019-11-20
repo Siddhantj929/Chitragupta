@@ -5,6 +5,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import blue from "@material-ui/core/colors/blue";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -25,7 +26,9 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: "column"
 	},
 	accordianItem: {
-		backgroundColor: "#f7f7f7",
+		// backgroundColor: "#f7f7f7",
+		backgroundColor: blue["50"],
+		color: theme.palette.primary.dark,
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(1),
 		marginTop: theme.spacing(0.5),

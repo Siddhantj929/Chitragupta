@@ -18,11 +18,8 @@ const StyledMenuItem = withStyles(theme => ({
 				color: theme.palette.primary.dark
 			}
 		},
-		"& .MuiListItemIcon-root": {
-			minWidth: theme.spacing(4)
-		},
 		"& .MuiListItemText-root": {
-			marginTop: 6
+			marginTop: 4
 		}
 	}
 }))(MenuItem);

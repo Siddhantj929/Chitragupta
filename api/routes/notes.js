@@ -30,6 +30,12 @@ module.exports = app => {
 			.catch(err => res.status(400).send(response(null, false, err)))
 	);
 
+	router.put("/check", ifAuth, (req, res) =>
+		NoteService.check(req.body)
+			.then(data => res.status(200).send(response(data, true, null)))
+			.catch(err => res.status(400).send(response(null, false, err)))
+	);
+
 	router.delete("/:id", ifAuth, (req, res) =>
 		NoteService.delete(req.params.id)
 			.then(data => res.status(200).send(response(data, true, null)))

@@ -13,6 +13,8 @@ const authContext = {
 };
 
 const taskContext = {
+	tasks: [],
+	addTasks: tasks => {},
 	tasksCompleted: [],
 	selectTask: taskId => {},
 	deSelectTask: taskId => {}
@@ -23,9 +25,19 @@ const transactionContext = {
 	updateTransactions: transactions => {}
 };
 
+const queueContext = {
+	queue: [],
+	updateQueue: queue => {}
+};
+
 const tagContext = {
 	tags: [],
-	addTag: tag => {}
+	addTags: tag => {}
+};
+
+const tabContext = {
+	tab: null,
+	changeTab: tabValue => {}
 };
 
 const auditContext = {
@@ -39,5 +51,7 @@ export default React.createContext({
 	...transactionContext,
 	...stateContext,
 	...auditContext,
-	...tagContext
+	...tagContext,
+	...tabContext,
+	...queueContext
 });
