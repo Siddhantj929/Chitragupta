@@ -8,8 +8,6 @@ const router = Router();
 
 router.get("/", TaskController.getAll.bind(TaskController));
 
-router.get("/:id", TaskController.getOne.bind(TaskController));
-
 router.get(
 	"/user",
 	authHandler,
@@ -22,15 +20,17 @@ router.get(
 	TaskController.updateQueue.bind(TaskController)
 );
 
-router.post("/", authHandler, TaskController.create.bind(TaskController));
+router.get("/:id", TaskController.getOne.bind(TaskController));
 
-router.patch("/:id", authHandler, TaskController.update.bind(TaskController));
+router.post("/", authHandler, TaskController.create.bind(TaskController));
 
 router.patch(
 	"/complete",
 	authHandler,
 	TaskController.markComplete.bind(TaskController)
 );
+
+router.patch("/:id", authHandler, TaskController.update.bind(TaskController));
 
 router.delete("/:id", authHandler, TaskController.delete.bind(TaskController));
 

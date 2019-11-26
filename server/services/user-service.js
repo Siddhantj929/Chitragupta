@@ -18,7 +18,7 @@ class UserService extends BaseService {
 
 	async authenticate({ email, password }) {
 		const user = await this.model.findOne({
-			email: user.email
+			email: email
 		});
 
 		if (!user) throw new HttpError(404, "User with this email not found.");

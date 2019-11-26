@@ -11,12 +11,12 @@ class BaseService {
 		return await this.model.findById(id);
 	}
 
-	async fetchAll() {
-		return await this.model.find();
+	async fetchAll(filter) {
+		return await this.model.find(filter);
 	}
 
 	async update(id, data) {
-		return await this.model.findByIdAndUpdate(id, data);
+		return await this.model.findByIdAndUpdate(id, data, { new: true });
 	}
 
 	async delete(id, data) {

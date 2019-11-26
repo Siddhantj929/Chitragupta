@@ -1,5 +1,6 @@
 const BaseController = require("./base");
 const Tasks = require("../services/task-service");
+const HttpResponse = require("../models/http-response");
 
 class TaskController extends BaseController {
 	constructor() {
@@ -7,7 +8,8 @@ class TaskController extends BaseController {
 	}
 
 	async getAllByUser(req, res, next) {
-		const payload = await this.service.fetchAll({ user: req.user._id });
+		console.log("user", req.user);
+		const payload = await this.service.fetchAll({ user: req.user });
 
 		res.status(200).json(new HttpResponse(true, payload, null));
 	}

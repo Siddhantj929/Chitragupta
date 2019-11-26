@@ -8,13 +8,13 @@ const router = Router();
 
 router.get("/", TagController.getAll.bind(TagController));
 
-router.get("/:id", TagController.getOne.bind(TagController));
-
 router.get(
 	"/user",
 	authHandler,
 	TagController.getAllByUser.bind(TagController)
 );
+
+router.get("/:id", TagController.getOne.bind(TagController));
 
 router.post("/", authHandler, TagController.create.bind(TagController));
 

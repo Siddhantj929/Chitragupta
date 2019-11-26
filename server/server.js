@@ -1,10 +1,12 @@
-var cluster = require("cluster");
-var os = require("os");
+const config = require("./config");
+
+const cluster = require("cluster");
+const os = require("os");
 
 const CPUs = os.cpus();
 
 // Adding parallel processing support by using cluster of multiple cores
-if (cluster.isMaster) {
+if (config.app.stage === "production" && cluster.isMaster) {
 	CPUs.forEach(() => {
 		cluster.fork();
 	});
