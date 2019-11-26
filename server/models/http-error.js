@@ -4,3 +4,5 @@ class HttpError extends Error {
 		super(message || "Internal server error.");
 	}
 }
+
+module.exports = HttpError;

@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const UserController = require("../controllers/user");
+const UserController = require("../controllers/user-controller");
 
 const router = Router();
 
@@ -9,7 +9,9 @@ router.get("/", UserController.getAll.bind(UserController));
 
 router.get("/:id", UserController.getOne.bind(UserController));
 
-router.post("/", UserController.create.bind(UserController));
+router.post("/signup", UserController.signup.bind(UserController));
+
+router.post("/login", UserController.login.bind(UserController));
 
 router.patch("/:id", UserController.update.bind(UserController));
 

@@ -1,8 +1,6 @@
 const HttpResponse = require("../models/http-response");
 
 const errorHandler = (err, req, res, next) => {
-	console.log("error-handler");
-
 	if (res.headersSent) {
 		return next(err);
 	}
