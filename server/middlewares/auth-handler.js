@@ -13,7 +13,6 @@ const authHandler = (req, res, next) => {
 			config.auth.tokenOptions
 		);
 
-		console.log("result", result);
 		// Let's pass back the decoded token to the request object
 		req.user = result.user;
 		req.body.user = result.user;

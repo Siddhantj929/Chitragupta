@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const taskSchema = new Schema(
+const transactionSchema = new Schema(
 	{
 		tag: {
 			type: Schema.Types.ObjectId,
@@ -16,16 +16,12 @@ const taskSchema = new Schema(
 			ref: "Users",
 			required: true
 		},
-		isActive: {
-			type: Boolean,
-			default: false
-		},
-		isComplete: {
-			type: Boolean,
-			default: false
+		note: {
+			type: String,
+			required: true
 		},
 		value: {
-			type: String,
+			type: Number,
 			required: true
 		}
 	},
@@ -34,6 +30,6 @@ const taskSchema = new Schema(
 	}
 );
 
-taskSchema.plugin(require("mongoose-autopopulate"));
+transactionSchema.plugin(require("mongoose-autopopulate"));
 
-module.exports = taskSchema;
+module.exports = transactionSchema;

@@ -1,8 +1,11 @@
 const BaseService = require("./base");
 const UserModel = require("../models/user-model");
+const TaskModel = require("../models/task-model");
+const TransactionModel = require("../models/transaction-model");
 const HttpError = require("../models/http-error");
 
 const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary").v2;
 
 class UserService extends BaseService {
 	constructor() {
@@ -12,6 +15,17 @@ class UserService extends BaseService {
 	async create(data) {
 		if (await this.model.findOne({ email: data.email }))
 			throw new HttpError(400, "User with this email already exists.");
+
+		// Upload image to Cloudinary server
+		const image = await cloudinary.uploader.upload(data.image, {
+			tags: "chitragupta_user",
+			width: 200,
+			height: 200,
+			crop: "fit",
+			public_id: data.name.replace(" ", "_")
+		});
+
+		data.image = image.url;
 
 		return await super.create(data);
 	}
@@ -34,6 +48,74 @@ class UserService extends BaseService {
 			user,
 			token
 		};
+	}
+
+	async generateReport(userId, start, end) {
+		// Helper function to map array into object with tag names as keys
+		const generateTagReport = (arr, isCount = false) => {
+			const result = {};
+
+			arr.forEach(e => {
+				if (!result[e.tag.name] || result[e.tag.name] === "undefined")
+					result[e.tag.name] = 0;
+
+				result[e.tag.name] += isCount ? 1 : e.value;
+			});
+
+			return result;
+		};
+
+		const startDate = new Date(start);
+		const endDate = new Date(end);
+
+		const expenses = await TransactionModel.find({
+			user: userId,
+			value: { $lt: 0 },
+			createdAt: {
+				$gte: startDate,
+				$lt: endDate
+			}
+		});
+
+		const earnings = await TransactionModel.find({
+			user: userId,
+			value: { $gt: 0 },
+			createdAt: {
+				$gte: startDate,
+				$lt: endDate
+			}
+		});
+
+		const tasksCompleted = await TaskModel.find({
+			user: userId,
+			isComplete: true,
+			createdAt: {
+				$gte: startDate,
+				$lt: endDate
+			}
+		});
+
+		return {
+			expenses: generateTagReport(expenses),
+			earnings: generateTagReport(earnings),
+			tasksCompleted: generateTagReport(tasksCompleted, true)
+		};
+	}
+
+	async balance(userId) {
+		const expenses = await TransactionModel.find({
+			user: userId,
+			value: { $lt: 0 }
+		}).reduce((a, b) => a.value + b.value, 0);
+
+		const earnings = await TransactionModel.find({
+			user: userId,
+			value: { $gt: 0 }
+		}).reduce((a, b) => a.value + b.value, 0);
+
+		const current = earnings + expenses; // expenses < 0
+
+		return { expenses, earnings, current };
 	}
 }
 
