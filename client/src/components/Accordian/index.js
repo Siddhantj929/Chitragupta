@@ -6,6 +6,8 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 
+import { toINR } from "../../config/currency";
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%"
@@ -52,20 +54,25 @@ const AccordianItem = props => {
 
 const Accordian = props => {
 	const classes = useStyles();
+	const { title, info, items, isCurrency } = props;
 
 	return (
 		<ExpansionPanel {...props}>
 			<ExpansionPanelSummary expandIcon={<Icon>expand_more</Icon>}>
-				<Typography className={classes.heading}>
-					Current Balance
-				</Typography>
+				<Typography className={classes.heading}>{title}</Typography>
 				<Typography className={classes.secondaryHeading}>
-					₹ 10,000 /-
+					{info && isCurrency ? toINR(info) : `${info} Tasks`}
 				</Typography>
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.accordianSummary}>
-				<AccordianItem primary="Current Balance" secondary="10 Notes" />
-				<AccordianItem primary="Current Balance" secondary="10 Notes" />
+				{Object.keys(items).map(e => (
+					<AccordianItem
+						primary={e}
+						secondary={
+							isCurrency ? toINR(items[e]) : `${items[e]} Tasks`
+						}
+					/>
+				))}
 			</ExpansionPanelDetails>
 		</ExpansionPanel>
 	);

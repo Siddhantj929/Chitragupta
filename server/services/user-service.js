@@ -19,8 +19,8 @@ class UserService extends BaseService {
 		// Upload image to Cloudinary server
 		const image = await cloudinary.uploader.upload(data.image, {
 			tags: "chitragupta_user",
-			width: 200,
-			height: 200,
+			width: 100,
+			height: 100,
 			crop: "fit",
 			public_id: data.name.replace(" ", "_")
 		});

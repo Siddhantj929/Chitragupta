@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useContext, createRef } from "react";
+import React, { useState, Fragment, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -10,8 +10,6 @@ import Container from "@material-ui/core/Container";
 import SignStatus from "../../config/sign";
 
 import Context from "../App/context";
-
-import testUser from "../../test/user";
 
 const useStyles = makeStyles(theme => ({
 	Logo: {
@@ -52,11 +50,11 @@ const Sign = () => {
 	const classes = useStyles();
 	const context = useContext(Context);
 
-	const imageRef = createRef();
-	const nameRef = createRef();
-	const titleRef = createRef();
-	const emailRef = createRef();
-	const passwordRef = createRef();
+	const [image, setImage] = useState(null);
+	const [name, setName] = useState(null);
+	const [title, setTitle] = useState(null);
+	const [email, setEmail] = useState(null);
+	const [password, setPassword] = useState(null);
 
 	const [status, setStatus] = useState(SignStatus.LOGIN);
 
@@ -65,38 +63,39 @@ const Sign = () => {
 		else setStatus(SignStatus.SIGNUP);
 	};
 
-	const handleSign = status => {
-		let url = "/api/v1/users/login";
-		let contentType = "application/json";
-		const body = {
-			email: emailRef.current.value,
-			password: passwordRef.current.value
-		};
+	const handleSign = async () => {
+		context.openLoader();
 
+		let url = "api/users/login";
+		const body = new FormData();
+
+		body.append("email", email);
+		body.append("password", password);
+
+		// If sign up
 		if (status === SignStatus.SIGNUP) {
-			url = "/api/v1/users/signup";
-			contentType = "multipart/form-data";
-			body.image = imageRef.current.value;
-			body.name = nameRef.current.value;
-			body.title = titleRef.current.value;
+			url = "api/users/signup";
+			body.append("name", name);
+			body.append("title", title);
+			body.append("image", image, "user_image");
 		}
 
-		// fetch(url, {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": contentType
-		// 	},
-		// 	body: JSON.stringify(body)
-		// })
-		// 	.then(raw => raw.json())
-		// 	.then(data => {
-		// 		if (data.error) {
-		// 			// handle error
-		// 		} else {
-		// 			context.login(data.payload.user, data.payload.token);
-		// 		}
-		// 	})
-		// 	.catch(e => console.log(e));
+		const response = await fetch(`http://localhost:5000/${url}`, {
+			method: "POST",
+			body
+		});
+
+		const data = await response.json();
+		console.log(`${status.name} :`, data);
+
+		if (data.error) {
+			// Handle error
+		} else {
+			// Login the user
+			context.login(data.payload.user, data.payload.token);
+		}
+
+		context.closeLoader();
 	};
 
 	return (
@@ -128,14 +127,14 @@ const Sign = () => {
 								type="file"
 								margin="normal"
 								helperText="Profile Image"
-								ref={imageRef}
+								onChange={e => setImage(e.target.files[0])}
 							/>
 							<TextField
 								id="user-name"
 								label="Name"
 								fullWidth
 								margin="normal"
-								ref={nameRef}
+								onChange={e => setName(e.target.value)}
 							/>
 							<TextField
 								id="user-title"
@@ -143,7 +142,7 @@ const Sign = () => {
 								fullWidth
 								helperText="Eg: Full Stack Developer"
 								margin="normal"
-								ref={titleRef}
+								onChange={e => setTitle(e.target.value)}
 							/>
 						</Fragment>
 					)}
@@ -153,7 +152,7 @@ const Sign = () => {
 						type="email"
 						fullWidth
 						margin="normal"
-						ref={emailRef}
+						onChange={e => setEmail(e.target.value)}
 					/>
 					<TextField
 						id="user-password"
@@ -161,7 +160,7 @@ const Sign = () => {
 						type="password"
 						fullWidth
 						margin="normal"
-						ref={passwordRef}
+						onChange={e => setPassword(e.target.value)}
 					/>
 					<div className={classes.Buttons}>
 						<Button
@@ -175,6 +174,7 @@ const Sign = () => {
 						<Button
 							variant="contained"
 							color="primary"
+							onClick={handleSign}
 							endIcon={<Icon>send</Icon>}
 						>
 							{status.name}

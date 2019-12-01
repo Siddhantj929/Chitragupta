@@ -10,8 +10,8 @@ class UserController extends BaseController {
 
 	async signup(req, res, next) {
 		try {
-			if (req.files.image.ws.bytesWritten === 0)
-				throw new Error("Image is not provided.");
+			// if (req.files.image.ws.bytesWritten === 0)
+			// throw new Error("Image is not provided.");
 
 			req.body.image = req.files.image.path;
 

@@ -2,6 +2,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan")("common");
 const helmet = require("helmet")();
 const compression = require("compression")();
+const cors = require("cors")();
 
 module.exports = app => {
 	// Parsing incoming request body
@@ -16,4 +17,7 @@ module.exports = app => {
 
 	// GZIP compression
 	app.use(compression);
+
+	// CORS enabled
+	app.use(cors);
 };

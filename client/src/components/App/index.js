@@ -18,9 +18,6 @@ const theme = createMuiTheme({
 		background: {
 			default: "#f4f4f4"
 		}
-	},
-	typography: {
-		fontSize: 12
 	}
 });
 
@@ -34,8 +31,8 @@ const App = () => {
 	const classes = useStyles();
 
 	// Auth
-	const [token, setToken] = useState("1");
-	const [user, setUser] = useState(1);
+	const [token, setToken] = useState(null);
+	const [user, setUser] = useState(null);
 
 	const login = (user, token) => {
 		setUser(user);
@@ -64,11 +61,26 @@ const App = () => {
 		setTasksCompleted(_selected);
 	};
 
-	// Transaction Context
-	const [latestTransactions, setLatestTransactions] = useState();
+	// Tags Context
+	const [tags, setTags] = useState([]);
 
-	const updateLatestTransactions = transactions =>
-		setLatestTransactions([...latestTransactions, transactions]);
+	const addTags = newTags => setTags([...newTags, tags]);
+
+	// Tasks Context
+	const [tasks, setTasks] = useState([]);
+
+	const addTasks = newTasks => setTasks([...newTasks, tasks]);
+
+	// Transaction Context
+	const [transactions, setTransactions] = useState([]);
+
+	const addTransactions = newTransactions =>
+		setTransactions([...newTransactions, transactions]);
+
+	// Report Context
+	const [report, setReport] = useState([]);
+
+	const updateReport = report => setReport(report);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -82,10 +94,16 @@ const App = () => {
 					selectTask,
 					deSelectTask,
 					tasksCompleted,
-					latestTransactions,
-					updateLatestTransactions,
+					transactions,
+					addTransactions,
+					tasks,
+					addTasks,
+					tags,
+					addTags,
 					openLoader,
-					closeLoader
+					closeLoader,
+					report,
+					updateReport
 				}}
 			>
 				<div className={classes.App}>

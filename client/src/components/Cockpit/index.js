@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Cockpit = () => {
+const Cockpit = props => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -58,16 +58,15 @@ const Cockpit = () => {
 		}
 	];
 
+	const { user } = props;
+
 	return (
-		<div className={classes.Cockpit}>
-			<Avatar
-				src="https://i.imgur.com/ADAlTe2.jpg"
-				className={classes.bigAvatar}
-			/>
+		<div className={classes.Cockpit} {...props}>
+			<Avatar src={user && user.image} className={classes.bigAvatar} />
 			<div className={classes.userInfo}>
-				<Typography variant="h6">Siddhant Jain</Typography>
+				<Typography variant="h6">{user && user.name}</Typography>
 				<Typography variant="body2" color="textSecondary">
-					Full Stack Developer
+					{user && user.title}
 				</Typography>
 				<Button color="primary" className={classes.button}>
 					edit profile

@@ -15,17 +15,31 @@ const authContext = {
 const taskContext = {
 	tasksCompleted: [],
 	selectTask: taskId => {},
-	deSelectTask: taskId => {}
+	deSelectTask: taskId => {},
+	tasks: [],
+	addTasks: () => {}
 };
 
 const transactionContext = {
-	latestTransactions: [],
-	updateLatestTransactions: transactions => {}
+	transactions: [],
+	addTransactions: transactions => {}
+};
+
+const tagContext = {
+	tags: [],
+	addTags: tags => {}
+};
+
+const reportContext = {
+	report: null,
+	updateReport: report => {}
 };
 
 export default React.createContext({
 	...authContext,
 	...taskContext,
 	...transactionContext,
-	...stateContext
+	...stateContext,
+	...tagContext,
+	...reportContext
 });
