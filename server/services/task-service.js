@@ -14,15 +14,15 @@ class TaskService extends BaseService {
 	}
 
 	async updateQueue(userId) {
-		const activeTasks = await this.model.find({
-			isActive: true,
-			user: userId
-		});
+		const activeTasks = await this.model.find(
+			{ isActive: true, user: userId },
+			{ sort: "-createdAt" }
+		);
 
 		const queueVacancy = config.task.activeLimit - activeTasks.length;
 
 		// If the queue is full
-		if (queueVacancy === 0) return;
+		if (queueVacancy === 0) return activeTasks;
 
 		const waitingTasks = await this.model.find(
 			{ isComplete: false, isActive: false, user: userId },
