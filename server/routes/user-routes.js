@@ -9,12 +9,6 @@ const router = Router();
 
 router.get("/", UserController.getAll.bind(UserController));
 
-router.get(
-	"/balance",
-	authHandler,
-	UserController.getBalance.bind(UserController)
-);
-
 router.get("/:id", UserController.getOne.bind(UserController));
 
 router.post(

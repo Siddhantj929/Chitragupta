@@ -66,7 +66,7 @@ const Sign = () => {
 	const handleSign = status => {
 		context.openLoader();
 
-		let url = "/v1/api/auth/login";
+		let url = "/v1/api/users/login";
 		let headers = {
 			"Content-Type": "application/json"
 		};
@@ -80,7 +80,7 @@ const Sign = () => {
 		};
 
 		if (status === SignStatus.SIGNUP) {
-			url = "/v1/api/auth/signup";
+			url = "/v1/api/users/signup";
 
 			body.append("name", name);
 			body.append("title", title);

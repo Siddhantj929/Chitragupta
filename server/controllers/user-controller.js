@@ -49,12 +49,6 @@ class UserController extends BaseController {
 			next(new HttpError(err.status || 500, err.message));
 		}
 	}
-
-	async getBalance(req, res, next) {
-		const payload = await this.service.balance(req.user._id);
-
-		res.status(200).json(new HttpResponse(true, payload, null));
-	}
 }
 
 const controller = new UserController();

@@ -21,12 +21,15 @@ const TaskPage = () => {
 	const context = useContext(Context);
 
 	const fetchTasks = async () => {
-		const response = await fetch(`http://localhost:5000/v1/api/notes`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${context.token}`
+		const response = await fetch(
+			`http://localhost:5000/v1/api/tasks/user`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${context.token}`
+				}
 			}
-		});
+		);
 
 		const data = await response.json();
 		console.log("notes", data);

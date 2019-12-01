@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Cockpit from "../../../Cockpit";
@@ -33,95 +33,98 @@ const ProfilePage = () => {
 		context.transactions.slice(3)
 	);
 
-	useEffect(() => {
-		const addTags = data => {
-			if (data.length !== 0) {
-				context.addTags(data);
-			}
-		};
+	const addTags = useCallback(
+		data => (data.length !== 0 ? context.addTags(data) : null),
+		[context]
+	);
 
-		const addAudit = data => {
+	const addAudit = useCallback(
+		data => {
 			setAudit(data);
 			context.addAudit(data);
-		};
+		},
+		[context]
+	);
 
-		const addTransactions = data => {
+	const addTransactions = useCallback(
+		data => {
 			if (data.length !== 0) {
-				console.log(data);
 				setTransactions(data.slice(3));
 				context.updateTransactions(data);
 			}
-		};
+		},
+		[context]
+	);
 
-		const fetchAudit = async () => {
-			const month = new Date().getMonth();
-			const year = new Date().getFullYear();
+	const fetchAudit = useCallback(async () => {
+		const start = null;
+		const end = null;
 
-			const response = await fetch(
-				`http://localhost:5000/v1/api/audit/${month}/${year}`,
-				{
-					method: "GET",
-					headers: {
-						Authorization: `Bearer ${context.token}`
-					}
-				}
-			);
-
-			const data = await response.json();
-			console.log("audit", data);
-
-			if (data.error) {
-				// handle error
-				console.log(data.error);
-			} else {
-				addAudit(data.payload);
+		const response = await fetch(`http://localhost:5000/v1/users/report`, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${context.token}`,
+				"Content-Type": "application/json",
+				body: JSON.stringify({ start, end })
 			}
-		};
+		});
 
-		const fetchTags = async () => {
-			const response = await fetch(`http://localhost:5000/v1/api/tags`, {
+		const data = await response.json();
+		console.log("report", data);
+
+		if (data.error) {
+			// handle error
+			console.log(data.error);
+		} else {
+			addAudit(data.payload);
+		}
+	}, [addAudit, context.token]);
+
+	const fetchTags = useCallback(async () => {
+		const response = await fetch(`http://localhost:5000/v1/api/tags`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${context.token}`
+			}
+		});
+
+		const data = await response.json();
+		console.log("tags", data);
+
+		if (data.error) {
+			// handle error
+			console.log(data.error);
+		} else {
+			addTags(data.payload);
+		}
+	}, [addTags, context.token]);
+
+	const fetchTransactions = useCallback(async () => {
+		const response = await fetch(
+			`http://localhost:5000/v1/api/transactions`,
+			{
 				method: "GET",
 				headers: {
 					Authorization: `Bearer ${context.token}`
 				}
-			});
-
-			const data = await response.json();
-			console.log("tags", data);
-
-			if (data.error) {
-				// handle error
-				console.log(data.error);
-			} else {
-				addTags(data.payload);
 			}
-		};
+		);
 
-		const fetchTransactions = async () => {
-			const response = await fetch(
-				`http://localhost:5000/v1/api/transactions`,
-				{
-					method: "GET",
-					headers: {
-						Authorization: `Bearer ${context.token}`
-					}
-				}
-			);
+		const data = await response.json();
 
-			const data = await response.json();
+		if (data.error) {
+			// handle error
+			console.log(data.error);
+		} else {
+			addTransactions(data.payload);
+		}
+	}, [addTransactions, context.token]);
 
-			if (data.error) {
-				// handle error
-				console.log(data.error);
-			} else {
-				addTransactions(data.payload);
-			}
-		};
-
+	useEffect(() => {
 		if (!audit) fetchAudit();
 		if (context.tags.length === 0) fetchTags();
 		if (context.transactions.length === 0) fetchTransactions();
-	}, [context, audit]);
+	}, [context, audit, fetchAudit, fetchTags, fetchTransactions]);
 
 	return (
 		<div className={classes.ProfilePage}>

@@ -65,8 +65,8 @@ class UserService extends BaseService {
 			return result;
 		};
 
-		const startDate = new Date(start);
-		const endDate = new Date(end);
+		const startDate = start ? new Date(start) : null;
+		const endDate = end ? new Date(end) : null;
 
 		const expenses = await TransactionModel.find({
 			user: userId,
@@ -96,26 +96,19 @@ class UserService extends BaseService {
 		});
 
 		return {
-			expenses: generateTagReport(expenses),
-			earnings: generateTagReport(earnings),
-			tasksCompleted: generateTagReport(tasksCompleted, true)
+			expenses: {
+				total: expenses.reduce((a, b) => a.value + b.value, 0),
+				report: generateTagReport(expenses)
+			},
+			earnings: {
+				total: earnings.reduce((a, b) => a.value + b.value, 0),
+				report: generateTagReport(earnings)
+			},
+			tasksCompleted: {
+				total: tasksCompleted.length,
+				report: generateTagReport(tasksCompleted, true)
+			}
 		};
-	}
-
-	async balance(userId) {
-		const expenses = await TransactionModel.find({
-			user: userId,
-			value: { $lt: 0 }
-		}).reduce((a, b) => a.value + b.value, 0);
-
-		const earnings = await TransactionModel.find({
-			user: userId,
-			value: { $gt: 0 }
-		}).reduce((a, b) => a.value + b.value, 0);
-
-		const current = earnings + expenses; // expenses < 0
-
-		return { expenses, earnings, current };
 	}
 }
 
